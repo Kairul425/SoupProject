@@ -1,22 +1,25 @@
-import "./App.css";
+import { createTheme, ThemeProvider } from "@mui/material/styles";
+import CssBaseline from "@mui/material/CssBaseline";
+
 import Register from "./pages/Register";
-import Login from "./pages/Login";
+// import ResetPassword from "./pages/ResetPassword";
+// import Login from "./pages/Login";
+
+import "./App.css";
+
+const theme = createTheme({
+  typography: {
+    fontFamily: "Montserrat, sans-serif",
+  },
+});
 
 const App = () => {
   return (
-    <div className="App">
-      <div className="navbar">
-        <div className="img-navbar">
-          <h1>navbar tes</h1>
-        </div>
-        <div className="btn-navbar">
-          <button>Login</button>
-          <button>Register</button>
-        </div>
-      </div>
-      <Login />
+    <ThemeProvider theme={theme}>
+      <CssBaseline />
+      {/* <ResetPassword /> */}
       <Register />
-    </div>
+    </ThemeProvider>
   );
 };
 
