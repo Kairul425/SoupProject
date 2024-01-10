@@ -32,9 +32,20 @@ const FormResetPassword = () => {
             fontSize: "24px",
             fontWeight: "400",
             color: "#333333",
+            marginBottom: "16px",
           }}
         >
-          Create Password
+          Reset Password
+        </Typography>
+        <Typography
+          variant="body2"
+          sx={{
+            fontSize: "16px",
+            fontWeight: "400",
+            color: "#4F4F4F",
+          }}
+        >
+          Send OTP code to your email address
         </Typography>
         <Box
           component="form"
@@ -42,18 +53,11 @@ const FormResetPassword = () => {
         >
           <TextField
             fullWidth
-            id="password"
-            label="New Password"
-            name="password"
-            type="password"
+            id="email"
+            label="Email"
+            name="email"
+            type="email"
             sx={{ marginBottom: "24px" }}
-          />
-          <TextField
-            fullWidth
-            id="password"
-            label="Confirm New Password"
-            name="password"
-            type="password"
           />
         </Box>
         <Box
@@ -78,7 +82,7 @@ const FormResetPassword = () => {
             color="orangeB"
             sx={{ boxShadow: "none" }}
           >
-            Submit
+            Confirm
           </Button>
         </Box>
       </Box>

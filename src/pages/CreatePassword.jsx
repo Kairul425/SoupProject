@@ -1,9 +1,9 @@
 import { Container } from "@mui/material";
 
 import Navbar from "../components/Navbar";
-import FormLogin from "../components/FormLogin";
+import FormCreatePassword from "../components/FormCreatePassword";
 
-const Login = () => {
+const CreatePassword = () => {
   return (
     <>
       <Navbar />
@@ -16,10 +16,10 @@ const Login = () => {
           alignItems: "center",
         }}
       >
-        <FormLogin />
+        <FormCreatePassword />
       </Container>
     </>
   );
 };
 
-export default Login;
+export default CreatePassword;
