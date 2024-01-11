@@ -10,6 +10,9 @@ const theme = createTheme({
       main: "#EA9E1F",
     },
   },
+  typography: {
+    fontFamily: "Montserrat, sans-serif",
+  },
 });
 
 const FormResetPassword = () => {

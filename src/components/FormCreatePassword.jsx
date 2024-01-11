@@ -10,6 +10,9 @@ const theme = createTheme({
       main: "#EA9E1F",
     },
   },
+  typography: {
+    fontFamily: "Montserrat, sans-serif",
+  },
 });
 
 const FormCreatePassword = () => {
@@ -50,9 +53,9 @@ const FormCreatePassword = () => {
           />
           <TextField
             fullWidth
-            id="password"
+            id="new password"
             label="Confirm New Password"
-            name="password"
+            name="new password"
             type="password"
           />
         </Box>

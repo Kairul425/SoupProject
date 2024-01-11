@@ -7,6 +7,9 @@ const theme = createTheme({
       main: "#FABC1D",
     },
   },
+  typography: {
+    fontFamily: "Montserrat, sans-serif",
+  },
 });
 
 const FormLogin = () => {
@@ -60,7 +63,6 @@ const FormLogin = () => {
             label="Password"
             name="password"
             type="password"
-            sx={{ marginBottom: "24px" }}
           />
         </Box>
         <Box

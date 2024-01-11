@@ -7,6 +7,9 @@ const theme = createTheme({
       main: "#FABC1D",
     },
   },
+  typography: {
+    fontFamily: "Montserrat, sans-serif",
+  },
 });
 
 const FormRegister = () => {
