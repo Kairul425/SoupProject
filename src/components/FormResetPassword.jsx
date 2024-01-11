@@ -1,5 +1,6 @@
 import { Box, Typography, TextField, Button } from "@mui/material";
 import { createTheme, ThemeProvider } from "@mui/material/styles";
+import React, { useState } from "react";
 
 const theme = createTheme({
   palette: {
@@ -10,12 +11,52 @@ const theme = createTheme({
       main: "#EA9E1F",
     },
   },
-  typography: {
-    fontFamily: "Montserrat, sans-serif",
-  },
 });
 
-const FormResetPassword = () => {
+const FormResetPassword = ({ onSubmit }) => {
+  const [email, setEmail] = useState(""); // State for the email input
+  const [submitted, setSubmitted] = useState(false);
+
+  const handleEmailChange = (event) => {
+    setEmail(event.target.value);
+    if (submitted) {
+      // Jika formulir sudah disubmit, validasi saat pengguna mengubah nilai
+      validateEmail(event.target.value);
+    }
+  };
+
+  const validateEmail = (email) => {
+    // Validasi email dan atur submitted menjadi true jika ada kesalahan
+    if (!isValidEmail(email)) {
+      setSubmitted(true);
+    }
+  };
+
+  const handleCancel = () => {
+    setEmail("");
+    setSubmitted(false);
+  };
+
+  const handleConfirm = () => {
+    validateEmail(email);
+  
+    if (!submitted && isValidEmail(email)) {
+      const emailData = { email: email };
+      console.log(emailData);
+      onSubmit && onSubmit(email);
+    }
+  };
+
+  const isValidEmail = (email) => {
+    if (!email) {
+      return false; // Default to false if the email is empty
+    }
+
+    // Regular expression for basic email validation
+    const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+    return emailRegex.test(email);
+  };
+
   const buttonStyle = {
     width: "140px",
     borderRadius: "8px",
@@ -26,6 +67,7 @@ const FormResetPassword = () => {
     fontFamily: "Montserrat",
     fontWeight: "500",
   };
+
   return (
     <ThemeProvider theme={theme}>
       <Box sx={{ width: "616px" }}>
@@ -61,6 +103,10 @@ const FormResetPassword = () => {
             name="email"
             type="email"
             sx={{ marginBottom: "24px" }}
+            value={email}
+            onChange={handleEmailChange}
+            error={submitted && !isValidEmail(email)}
+            helperText={submitted && !isValidEmail(email) ? "Please enter a valid email address" : ""}
           />
         </Box>
         <Box
@@ -76,6 +122,7 @@ const FormResetPassword = () => {
             style={buttonStyle}
             color="brown"
             sx={{ boxShadow: "none" }}
+            onClick={handleCancel}
           >
             Cancel
           </Button>
@@ -84,6 +131,7 @@ const FormResetPassword = () => {
             style={buttonStyle}
             color="orangeB"
             sx={{ boxShadow: "none" }}
+            onClick={handleConfirm}
           >
             Confirm
           </Button>

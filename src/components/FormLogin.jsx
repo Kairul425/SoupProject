@@ -1,5 +1,6 @@
 import { Box, Typography, TextField, Button, Link } from "@mui/material";
 import { createTheme, ThemeProvider } from "@mui/material/styles";
+import React, { useState } from "react";
 
 const theme = createTheme({
   palette: {
@@ -13,6 +14,31 @@ const theme = createTheme({
 });
 
 const FormLogin = () => {
+  const [loginData, setLoginData] = useState({
+    email: "",
+    password: "",
+  });
+
+  const handleInputChange = (event) => {
+    setLoginData({
+      ...loginData,
+      [event.target.name]: event.target.value,
+    });
+  };
+
+  const handleLogin = () => {
+    console.log(loginData);
+
+    // Add your login logic here
+    // ...
+
+    // Reset loginData
+    setLoginData({
+      email: "",
+      password: "",
+    });
+  };
+
   const buttonStyle = {
     width: "140px",
     borderRadius: "8px",
@@ -23,6 +49,7 @@ const FormLogin = () => {
     fontFamily: "Montserrat",
     fontWeight: "500",
   };
+
   return (
     <ThemeProvider theme={theme}>
       <Box sx={{ width: "616px" }}>
@@ -56,6 +83,8 @@ const FormLogin = () => {
             type="email"
             autoComplete="email"
             sx={{ marginBottom: "24px" }}
+            value={loginData.email}
+            onChange={handleInputChange}
           />
           <TextField
             fullWidth
@@ -63,6 +92,8 @@ const FormLogin = () => {
             label="Password"
             name="password"
             type="password"
+            value={loginData.password}
+            onChange={handleInputChange}
           />
         </Box>
         <Box
@@ -78,6 +109,7 @@ const FormLogin = () => {
             style={buttonStyle}
             color="orange"
             sx={{ boxShadow: "none" }}
+            onClick={handleLogin}
           >
             Login
           </Button>
@@ -91,7 +123,7 @@ const FormLogin = () => {
             textAlign: "center",
           }}
         >
-          Dont haven account?
+          Don't have an account?
           <Link href="#" underline="none">
             {" Sign Up here"}
           </Link>
