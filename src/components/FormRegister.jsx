@@ -1,5 +1,6 @@
-import { Box, Typography, TextField, Button, Link } from "@mui/material";
+import { Box, Typography, TextField, Button, Link, Alert } from "@mui/material";
 import { createTheme, ThemeProvider } from "@mui/material/styles";
+import React, { useState } from "react";
 
 const theme = createTheme({
   palette: {
@@ -13,6 +14,43 @@ const theme = createTheme({
 });
 
 const FormRegister = () => {
+  const [formData, setFormData] = useState({
+    name: "",
+    email: "",
+    password: "",
+    confirmPassword: "",
+  });
+
+  const [passwordError, setPasswordError] = useState("");
+
+  const handleInputChange = (event) => {
+    setFormData({
+      ...formData,
+      [event.target.name]: event.target.value,
+    });
+
+    // Reset password error when typing
+    setPasswordError("");
+  };
+
+  const handleSignUp = () => {
+    if (formData.password !== formData.confirmPassword) {
+      setPasswordError("Password and Confirm Password must be the same");
+      return;
+    }
+
+    // Add your sign-up logic here
+    // ...
+
+    // Reset formData after sign-up (optional)
+    setFormData({
+      name: "",
+      email: "",
+      password: "",
+      confirmPassword: "",
+    });
+  };
+
   const buttonStyle = {
     width: "140px",
     borderRadius: "8px",
@@ -23,6 +61,7 @@ const FormRegister = () => {
     fontFamily: "Montserrat",
     fontWeight: "500",
   };
+
   return (
     <ThemeProvider theme={theme}>
       <Box sx={{ width: "616px" }}>
@@ -35,7 +74,7 @@ const FormRegister = () => {
             marginBottom: "16px",
           }}
         >
-          Are you ready become a professional cheff?
+          Are you ready become a professional chef?
         </Typography>
         <Typography
           variant="body2"
@@ -56,6 +95,8 @@ const FormRegister = () => {
             type="text"
             autoComplete="name"
             sx={{ marginBottom: "24px" }}
+            value={formData.name}
+            onChange={handleInputChange}
           />
           <TextField
             fullWidth
@@ -65,6 +106,8 @@ const FormRegister = () => {
             type="email"
             autoComplete="email"
             sx={{ marginBottom: "24px" }}
+            value={formData.email}
+            onChange={handleInputChange}
           />
           <TextField
             fullWidth
@@ -73,14 +116,23 @@ const FormRegister = () => {
             name="password"
             type="password"
             sx={{ marginBottom: "24px" }}
+            value={formData.password}
+            onChange={handleInputChange}
           />
           <TextField
             fullWidth
-            id="confirm password"
+            id="confirmPassword"
             label="Confirm Password"
-            name="confirm password"
+            name="confirmPassword"
             type="password"
+            value={formData.confirmPassword}
+            onChange={handleInputChange}
           />
+          {passwordError && (
+            <Alert severity="error" sx={{ marginBottom: "16px" }}>
+              {passwordError}
+            </Alert>
+          )}
         </Box>
         <Box
           sx={{
@@ -95,6 +147,7 @@ const FormRegister = () => {
             style={buttonStyle}
             color="orange"
             sx={{ boxShadow: "none" }}
+            onClick={handleSignUp}
           >
             Sign Up
           </Button>
@@ -108,7 +161,7 @@ const FormRegister = () => {
             textAlign: "center",
           }}
         >
-          Have account?
+          Have an account?
           <Link href="#" underline="none">
             {" Login here"}
           </Link>

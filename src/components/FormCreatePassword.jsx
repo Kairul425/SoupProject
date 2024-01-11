@@ -1,5 +1,6 @@
-import { Box, Typography, TextField, Button } from "@mui/material";
+import { Box, Typography, TextField, Button, Alert } from "@mui/material";
 import { createTheme, ThemeProvider } from "@mui/material/styles";
+import React, { useState } from "react";
 
 const theme = createTheme({
   palette: {
@@ -10,12 +11,61 @@ const theme = createTheme({
       main: "#EA9E1F",
     },
   },
-  typography: {
-    fontFamily: "Montserrat, sans-serif",
-  },
 });
 
 const FormCreatePassword = () => {
+  const [password, setPassword] = useState(""); // State for the password input
+  const [confirmPassword, setConfirmPassword] = useState(""); // State for the confirm password input
+  const [newPassword, setNewPassword] = useState("");
+  const [passwordError, setPasswordError] = useState(false); // State for password error
+
+  const handlePasswordChange = (event) => {
+    setPassword(event.target.value);
+    // Reset password error when typing
+    setPasswordError(false);
+  };
+
+  const handleConfirmPasswordChange = (event) => {
+    setConfirmPassword(event.target.value);
+    // Reset password error when typing
+    setPasswordError(false);
+  };
+
+  const handleCancel = () => {
+    // Reset nilai input ketika tombol Cancel ditekan
+    setPassword("");
+    setConfirmPassword("");
+    // Reset password error
+    setPasswordError(false);
+  };
+
+  const handleSubmit = (e) => {
+    e.preventDefault();
+
+    // Mengecek apakah password dan konfirmasi password sama
+    if (password !== confirmPassword) {
+      setPasswordError(true);
+      return;
+    }
+
+    const passwordData = {
+      password: password,
+      confirmPassword: confirmPassword,
+    };
+
+    // Melakukan tindakan pada pengiriman formulir
+    console.log("Password Data:", passwordData);
+
+    // Mengatur password baru (contoh)
+    setNewPassword(password);
+
+    // Reset nilai input setelah pengiriman formulir
+    setPassword("");
+    setConfirmPassword("");
+    // Reset password error
+    setPasswordError(false);
+  };
+
   const buttonStyle = {
     width: "140px",
     borderRadius: "8px",
@@ -26,6 +76,7 @@ const FormCreatePassword = () => {
     fontFamily: "Montserrat",
     fontWeight: "500",
   };
+
   return (
     <ThemeProvider theme={theme}>
       <Box sx={{ width: "616px" }}>
@@ -39,9 +90,14 @@ const FormCreatePassword = () => {
         >
           Create Password
         </Typography>
+        {passwordError && (
+          <Alert severity="error" sx={{ marginBottom: "16px" }}>
+            Password and Confirm Password must be the same.
+          </Alert>
+        )}
         <Box
           component="form"
-          sx={{ width: "100%", marginTop: "60px", marginBottom: "40px" }}
+          sx={{ width: "100%", marginTop: "20px", marginBottom: "40px" }}
         >
           <TextField
             fullWidth
@@ -50,13 +106,17 @@ const FormCreatePassword = () => {
             name="password"
             type="password"
             sx={{ marginBottom: "24px" }}
+            value={password}
+            onChange={handlePasswordChange}
           />
           <TextField
             fullWidth
-            id="new password"
+            id="confirmPassword"
             label="Confirm New Password"
-            name="new password"
+            name="confirmPassword"
             type="password"
+            value={confirmPassword}
+            onChange={handleConfirmPasswordChange}
           />
         </Box>
         <Box
@@ -72,6 +132,7 @@ const FormCreatePassword = () => {
             style={buttonStyle}
             color="brown"
             sx={{ boxShadow: "none" }}
+            onClick={handleCancel}
           >
             Cancel
           </Button>
@@ -80,6 +141,7 @@ const FormCreatePassword = () => {
             style={buttonStyle}
             color="orangeB"
             sx={{ boxShadow: "none" }}
+            onClick={handleSubmit}
           >
             Submit
           </Button>

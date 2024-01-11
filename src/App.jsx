@@ -9,11 +9,11 @@ import "./App.css";
 const App = () => {
   return (
     <>
-      {/* <Login /> */}
-      {/* <Register /> */}
-      {/* <CreatePassword /> */}
-      {/* <ResetPassword /> */}
-      <HomePage />
+      <Login />
+      <Register />
+      <CreatePassword />
+      <ResetPassword />
+      {/* <HomePage /> */}
     </>
   );
 };
