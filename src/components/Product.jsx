@@ -7,39 +7,7 @@ import {
   CardContent,
 } from "@mui/material";
 
-import ice from "../assets/ice.png";
-import biskuit from "../assets/biskuit.png";
-import soto from "../assets/soto.png";
-import bolu from "../assets/bolu.png";
-import bubur from "../assets/bubur.png";
-import spageti from "../assets/spageti.png";
-
-class ProductData {
-  constructor(id, image, name, description, price) {
-    this.id = id;
-    this.image = image;
-    this.name = name;
-    this.description = description;
-    this.price = price;
-  }
-}
-
-const products = [
-  new ProductData(1, ice, "Cold Drink", "Strawberry Float", "IDR 150.000"),
-  new ProductData(2, biskuit, "Cookies", "Chocholate Cookies", "IDR 200.000"),
-  new ProductData(3, soto, "Asian", "Tom Yum Thailand", "IDR 450.000"),
-  new ProductData(4, bolu, "Dessert", "Green Tea Cheesecake", "IDR 400.000"),
-  new ProductData(5, bubur, "Asian", "Soto Banjar Limau Kuit", "IDR 150.000"),
-  new ProductData(
-    6,
-    spageti,
-    "Western",
-    "Italian Spaghetti Bolognese",
-    "IDR 450.000"
-  ),
-];
-
-const Product = () => {
+const Product = (props) => {
   return (
     <Container
       maxWidth="lg"
@@ -57,7 +25,7 @@ const Product = () => {
           fontFamily: "Montserrat, sans-serif",
         }}
       >
-        More professional class
+        {props.title}
       </Typography>
       <Box
         sx={{
@@ -65,10 +33,10 @@ const Product = () => {
           display: "flex",
           flexWrap: "wrap",
           gap: "24px",
-          justifyContent: "center",
+          paddingX: "27px",
         }}
       >
-        {products?.map((product) => (
+        {props.data?.map((product) => (
           <Card
             key={product.id}
             sx={{ maxWidth: "350px", marginBottom: "40px" }}

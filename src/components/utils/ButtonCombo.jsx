@@ -12,11 +12,11 @@ const theme = createTheme({
   },
 });
 
-const ButtonNavbar = () => {
+const ButtonNavbar = (props) => {
   const buttonStyle = {
     width: "175px",
     borderRadius: "8px",
-    padding: "10px 20px",
+    padding: "5px 20px",
     color: "#5B4947",
     fontSize: "16px",
     textTransform: "none",
@@ -26,9 +26,9 @@ const ButtonNavbar = () => {
 
   return (
     <ThemeProvider theme={theme}>
-      <Box sx={{ display: "flex", gap: "40px" }}>
+      <Box sx={{ display: "flex", gap: "16px" }}>
         <Button variant="outlined" style={buttonStyle} color="brown">
-          Login
+          {props.first}
         </Button>
         <Button
           variant="contained"
@@ -36,7 +36,7 @@ const ButtonNavbar = () => {
           color="orange"
           sx={{ boxShadow: "none" }}
         >
-          Register
+          {props.last}
         </Button>
       </Box>
     </ThemeProvider>

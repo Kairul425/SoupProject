@@ -2,7 +2,7 @@ import { AppBar, Box } from "@mui/material";
 import { useState } from "react";
 
 import Menu from "./utils/Menu";
-import ButtonNavbar from "./utils/ButtonNavbar";
+import ButtonCombo from "./utils/ButtonCombo";
 
 import Logo from "../assets/logo.png";
 
@@ -29,7 +29,15 @@ const Navbar = () => {
           <Box>
             <img src={Logo} alt="logo" width="50px" />
           </Box>
-          {isLogin ? <Menu /> : <ButtonNavbar setIsLogin={setIsLogin} />}
+          {isLogin ? (
+            <Menu />
+          ) : (
+            <ButtonCombo
+              first="Login"
+              last="Register"
+              setIsLogin={setIsLogin}
+            />
+          )}
         </Box>
       </Box>
     </AppBar>
