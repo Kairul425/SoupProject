@@ -1,3 +1,5 @@
+import React from 'react';
+import { Link } from 'react-router-dom';
 import {
   Container,
   Box,
@@ -67,25 +69,27 @@ const Food = () => {
           }}
         >
           {foods?.map((food) => (
-            <Card
-              key={food.id}
-              sx={{ maxWidth: "200px", marginBottom: "27px" }}
-            >
-              <CardMedia component="img" image={food.image} alt={food.name} />
-              <CardContent>
-                <Typography
-                  sx={{
-                    color: "#000",
-                    textAlign: "center",
-                    fontSize: "24px",
-                    fontFamily: "Montserrat, sans-serif",
-                    fontWeight: "400",
-                  }}
-                >
-                  {food.name}
-                </Typography>
-              </CardContent>
-            </Card>
+            <Link key={food.id} to={`/ListMenuClass`} style={{ textDecoration: 'none' }}>
+              <Card
+                key={food.id}
+                sx={{ maxWidth: "200px", marginBottom: "27px" }}
+              >
+                <CardMedia component="img" image={food.image} alt={food.name} />
+                <CardContent>
+                  <Typography
+                    sx={{
+                      color: "#000",
+                      textAlign: "center",
+                      fontSize: "24px",
+                      fontFamily: "Montserrat, sans-serif",
+                      fontWeight: "400",
+                    }}
+                  >
+                    {food.name}
+                  </Typography>
+                </CardContent>
+              </Card>
+            </Link>
           ))}
         </Box>
       </Box>

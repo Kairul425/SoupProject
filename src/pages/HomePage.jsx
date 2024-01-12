@@ -1,4 +1,5 @@
 import { Box } from "@mui/material";
+import React, { useEffect } from 'react';
 
 import Banner from "../components/Banner";
 import Navbar from "../components/Navbar";
@@ -40,6 +41,9 @@ const products = [
 ];
 
 const HomePage = () => {
+  useEffect(() => {
+    window.scrollTo(0, 0);
+  }, []);
   return (
     <Box sx={{ marginTop: "75px" }}>
       <Navbar />

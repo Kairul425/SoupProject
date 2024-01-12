@@ -1,5 +1,6 @@
 import { Box, Button } from "@mui/material";
 import { createTheme, ThemeProvider } from "@mui/material/styles";
+import { Link } from 'react-router-dom';
 
 const theme = createTheme({
   palette: {
@@ -27,17 +28,21 @@ const ButtonNavbar = (props) => {
   return (
     <ThemeProvider theme={theme}>
       <Box sx={{ display: "flex", gap: "16px" }}>
-        <Button variant="outlined" style={buttonStyle} color="brown">
-          {props.first}
-        </Button>
-        <Button
-          variant="contained"
-          style={buttonStyle}
-          color="orange"
-          sx={{ boxShadow: "none" }}
-        >
-          {props.last}
-        </Button>
+        <Link to={props.firstLink} style={{ textDecoration: 'none' }}>
+          <Button variant="outlined" style={buttonStyle} color="brown">
+            {props.first}
+          </Button>
+        </Link>
+        <Link to={props.lastLink} style={{ textDecoration: 'none' }}>
+          <Button
+            variant="contained"
+            style={buttonStyle}
+            color="orange"
+            sx={{ boxShadow: "none" }}
+          >
+            {props.last}
+          </Button>
+        </Link>
       </Box>
     </ThemeProvider>
   );
