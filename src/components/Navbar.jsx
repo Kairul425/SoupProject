@@ -1,5 +1,6 @@
 import { AppBar, Box } from "@mui/material";
 import { useState } from "react";
+import { Link } from 'react-router-dom';
 
 import Menu from "./utils/Menu";
 import ButtonCombo from "./utils/ButtonCombo";
@@ -26,15 +27,19 @@ const Navbar = () => {
             alignItems: "center",
           }}
         >
-          <Box>
-            <img src={Logo} alt="logo" width="50px" />
-          </Box>
+          <Link to="/">
+            <Box>
+              <img src={Logo} alt="logo" width="50px" />
+            </Box>
+          </Link>
           {isLogin ? (
             <Menu />
           ) : (
             <ButtonCombo
               first="Login"
               last="Register"
+              firstLink="/login"
+              lastLink="/register"
               setIsLogin={setIsLogin}
             />
           )}

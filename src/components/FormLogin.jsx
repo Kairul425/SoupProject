@@ -124,7 +124,7 @@ const FormLogin = () => {
           }}
         >
           Don't have an account?
-          <Link href="#" underline="none">
+          <Link href="register" underline="none">
             {" Sign Up here"}
           </Link>
         </Typography>

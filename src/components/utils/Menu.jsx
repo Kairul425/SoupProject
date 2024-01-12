@@ -1,4 +1,5 @@
 import { Box, Typography, Button } from "@mui/material";
+import { Link } from 'react-router-dom';
 
 import ShoppingCartIcon from "@mui/icons-material/ShoppingCart";
 import PersonIcon from "@mui/icons-material/Person";
@@ -22,27 +23,36 @@ const Menu = () => {
         alignItems: "center",
       }}
     >
-      <Button variant="text" sx={{ color: "#5B4947", padding: "10px" }}>
-        <ShoppingCartIcon fontSize="medium" />
-      </Button>
+      <Link to={`/checkout`} style={{ textDecoration: 'none' }}>
+        <Button variant="text" sx={{ color: "#5B4947", padding: "10px" }}>
+          <ShoppingCartIcon fontSize="medium" />
+        </Button>
+      </Link>
 
-      <Button variant="text" style={buttonStyle}>
-        My Class
-      </Button>
+      <Link to={`#`} style={{ textDecoration: 'none' }}>
+        <Button variant="text" style={buttonStyle}>
+          My Class
+        </Button>
+      </Link>
 
-      <Button variant="text" style={buttonStyle}>
-        Invoice
-      </Button>
+      <Link to={`#`} style={{ textDecoration: 'none' }}>
+        <Button variant="text" style={buttonStyle}>
+          Invoice
+        </Button>
+      </Link>
 
-      <Typography variant="h6">|</Typography>
+      <Typography variant="h6" color={"black"}>|</Typography>
       <Box sx={{ display: "flex" }}>
-        <Button variant="text" sx={{ color: "#FABC1D", padding: "5px" }}>
-          <PersonIcon fontSize="large" />
-        </Button>
-
-        <Button variant="text" sx={{ color: "#5B4947", padding: "5px" }}>
-          <LogoutIcon fontSize="medium" />
-        </Button>
+        <Link to={`#`} style={{ textDecoration: 'none' }}>
+          <Button variant="text" sx={{ color: "#FABC1D", padding: "5px" }}>
+            <PersonIcon fontSize="large" />
+          </Button>
+        </Link>
+        <Link to={`#`} style={{ textDecoration: 'none' }}>
+          <Button variant="text" sx={{ color: "#5B4947", padding: "5px" }}>
+            <LogoutIcon fontSize="medium" />
+          </Button>
+        </Link>
       </Box>
     </Box>
   );

@@ -93,7 +93,7 @@ const Description = () => {
               </MenuItem>
             ))}
           </TextField>
-          <ButtonCombo first="Add to Cart" last="Buy Now" />
+          <ButtonCombo first="Add to Cart" last="Buy Now" firstLink="#" lastLink="/checkout" />
         </Box>
       </Box>
       <Box sx={{ paddingX: "27px", marginTop: "40px" }}>
