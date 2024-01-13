@@ -1,10 +1,27 @@
 import { Box, Container, Typography } from "@mui/material";
+import { useParams } from "react-router-dom";
+import { useState, useEffect } from "react";
+import axios from "axios";
 
 import listmenubaner from "../assets/listmenubaner.png";
 
 const BannerListMenu = () => {
+  const { type_name } = useParams();
+  const [productData, setProductData] = useState(null);
+
+  useEffect(() => {
+    axios
+      .get(`http://52.237.194.35:2024/api/Type/GetTypeByName?name=${type_name}`)
+      .then((res) => {
+        setProductData(res.data);
+      });
+  }, [type_name]);
+
   return (
-    <Box sx={{ borderBottom: "1px solid #E0E0E0", marginBottom: "80px" }}>
+    <Box
+      key={productData?.id_type}
+      sx={{ borderBottom: "1px solid #E0E0E0", marginBottom: "80px" }}
+    >
       <Box
         sx={{
           backgroundImage: `url(${listmenubaner})`,
@@ -25,7 +42,7 @@ const BannerListMenu = () => {
             fontSize: "24px",
           }}
         >
-          Asian
+          {productData?.type_name}
         </Typography>
         <Typography
           variant="body1"
@@ -37,13 +54,7 @@ const BannerListMenu = () => {
             marginTop: "16px",
           }}
         >
-          Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do
-          eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad
-          minim veniam, quis nostrud exercitation ullamco laboris nisi ut
-          aliquip ex ea commodo consequat. Duis aute irure dolor in
-          reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla
-          pariatur. Excepteur sint occaecat cupidatat non proident, sunt in
-          culpa qui officia deserunt mollit anim id est laborum.
+          {productData?.description}
         </Typography>
       </Container>
     </Box>

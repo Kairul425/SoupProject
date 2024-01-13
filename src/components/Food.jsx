@@ -1,5 +1,3 @@
-import React from 'react';
-import { Link } from 'react-router-dom';
 import {
   Container,
   Box,
@@ -9,35 +7,20 @@ import {
   CardContent,
 } from "@mui/material";
 
-import rendang from "../assets/rendang.png";
 import orange from "../assets/orange.png";
-import rice from "../assets/rice.png";
-import pizza from "../assets/pizza.png";
-import kopi from "../assets/kopi.png";
-import coco from "../assets/coco.png";
-import desert from "../assets/desert.png";
-import steak from "../assets/steak.png";
 
-class FoodData {
-  constructor(id, image, name) {
-    this.id = id;
-    this.image = image;
-    this.name = name;
-  }
-}
-
-const foods = [
-  new FoodData(1, rendang, "Asian"),
-  new FoodData(2, orange, "Cold Drink"),
-  new FoodData(3, coco, "Cookies"),
-  new FoodData(4, desert, "Desert"),
-  new FoodData(5, rice, "Eastern"),
-  new FoodData(6, kopi, "Hot Drink"),
-  new FoodData(7, pizza, "Junkfood"),
-  new FoodData(8, steak, "Western"),
-];
+import { useEffect, useState } from "react";
+import { Link } from "react-router-dom";
+import axios from "axios";
 
 const Food = () => {
+  const [foods, setFoods] = useState([]);
+  useEffect(() => {
+    axios
+      .get("http://52.237.194.35:2024/api/Type/GetActiveType")
+      .then((res) => setFoods(res.data));
+  }, []);
+
   return (
     <Container maxWidth="lg" sx={{ marginBottom: "147px" }}>
       <Typography
@@ -69,12 +52,24 @@ const Food = () => {
           }}
         >
           {foods?.map((food) => (
-            <Link key={food.id} to={`/ListMenuClass`} style={{ textDecoration: 'none' }}>
+            <Link
+              key={food.id_type}
+              to={`/ListMenuClass/${food.type_name}`}
+              style={{ textDecoration: "none" }}
+            >
               <Card
-                key={food.id}
-                sx={{ maxWidth: "200px", marginBottom: "27px" }}
+                key={food.id_type}
+                sx={{
+                  maxWidth: "200px",
+                  marginBottom: "27px",
+                  boxShadow: "none",
+                }}
               >
-                <CardMedia component="img" image={food.image} alt={food.name} />
+                <CardMedia
+                  component="img"
+                  image={orange}
+                  alt={food.type_name}
+                />
                 <CardContent>
                   <Typography
                     sx={{
@@ -85,7 +80,7 @@ const Food = () => {
                       fontWeight: "400",
                     }}
                   >
-                    {food.name}
+                    {food.type_name}
                   </Typography>
                 </CardContent>
               </Card>

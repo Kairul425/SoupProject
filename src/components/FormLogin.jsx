@@ -1,6 +1,6 @@
 import { Box, Typography, TextField, Button, Link } from "@mui/material";
 import { createTheme, ThemeProvider } from "@mui/material/styles";
-import React, { useState } from "react";
+import { useState } from "react";
 
 const theme = createTheme({
   palette: {

@@ -1,6 +1,7 @@
 import { Box, Typography, TextField, Button, Alert } from "@mui/material";
 import { createTheme, ThemeProvider } from "@mui/material/styles";
-import React, { useState } from "react";
+import { useState } from "react";
+import { Link } from "react-router-dom";
 
 const theme = createTheme({
   palette: {
@@ -127,24 +128,28 @@ const FormCreatePassword = () => {
             gap: "24px",
           }}
         >
-          <Button
-            variant="outlined"
-            style={buttonStyle}
-            color="brown"
-            sx={{ boxShadow: "none" }}
-            onClick={handleCancel}
-          >
-            Cancel
-          </Button>
-          <Button
-            variant="contained"
-            style={buttonStyle}
-            color="orangeB"
-            sx={{ boxShadow: "none" }}
-            onClick={handleSubmit}
-          >
-            Submit
-          </Button>
+          <Link to="/login">
+            <Button
+              variant="outlined"
+              style={buttonStyle}
+              color="brown"
+              sx={{ boxShadow: "none" }}
+              onClick={handleCancel}
+            >
+              Cancel
+            </Button>
+          </Link>
+          <Link to="/login">
+            <Button
+              variant="contained"
+              style={buttonStyle}
+              color="orangeB"
+              sx={{ boxShadow: "none" }}
+              onClick={handleSubmit}
+            >
+              Submit
+            </Button>
+          </Link>
         </Box>
       </Box>
     </ThemeProvider>

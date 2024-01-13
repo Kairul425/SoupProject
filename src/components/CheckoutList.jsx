@@ -58,7 +58,7 @@ const data = [
 ];
 
 const CheckoutList = () => {
-  const [checked, setChecked] = useState([0]);
+  const [checked, setChecked] = useState([]);
 
   const handleToggle = (value) => () => {
     const currentIndex = checked.indexOf(value.id);

@@ -1,6 +1,7 @@
 import { Box, Typography, TextField, Button } from "@mui/material";
 import { createTheme, ThemeProvider } from "@mui/material/styles";
 import React, { useState } from "react";
+import { Link } from "react-router-dom";
 
 const theme = createTheme({
   palette: {
@@ -39,7 +40,7 @@ const FormResetPassword = ({ onSubmit }) => {
 
   const handleConfirm = () => {
     validateEmail(email);
-  
+
     if (!submitted && isValidEmail(email)) {
       const emailData = { email: email };
       console.log(emailData);
@@ -106,7 +107,11 @@ const FormResetPassword = ({ onSubmit }) => {
             value={email}
             onChange={handleEmailChange}
             error={submitted && !isValidEmail(email)}
-            helperText={submitted && !isValidEmail(email) ? "Please enter a valid email address" : ""}
+            helperText={
+              submitted && !isValidEmail(email)
+                ? "Please enter a valid email address"
+                : ""
+            }
           />
         </Box>
         <Box
@@ -117,15 +122,17 @@ const FormResetPassword = ({ onSubmit }) => {
             gap: "24px",
           }}
         >
-          <Button
-            variant="outlined"
-            style={buttonStyle}
-            color="brown"
-            sx={{ boxShadow: "none" }}
-            onClick={handleCancel}
-          >
-            Cancel
-          </Button>
+          <Link to="/login" style={{ textDecoration: "none" }}>
+            <Button
+              variant="outlined"
+              style={buttonStyle}
+              color="brown"
+              sx={{ boxShadow: "none" }}
+              onClick={handleCancel}
+            >
+              Cancel
+            </Button>
+          </Link>
           <Button
             variant="contained"
             style={buttonStyle}

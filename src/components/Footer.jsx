@@ -6,6 +6,8 @@ import YouTubeIcon from "@mui/icons-material/YouTube";
 import TelegramIcon from "@mui/icons-material/Telegram";
 import MailOutlineIcon from "@mui/icons-material/MailOutline";
 
+import { Link } from "react-router-dom";
+
 const Footer = () => {
   const buttonStyle = {
     backgroundColor: "#FABC1D",
@@ -59,96 +61,98 @@ const Footer = () => {
         >
           Product
         </Typography>
-        <Box sx={{ display: "flex", paddingLeft: "15px" }}>
-          <Box sx={{ marginTop: "8px", marginRight: "80px" }}>
-            <ul style={{ color: "#fff" }}>
-              <li
-                style={{
-                  marginBottom: "8px",
-                  fontWeight: "400",
-                  fontSize: "14px",
-                  fontFamily: "Poppins, sans-serif",
-                }}
-              >
-                Electric
-              </li>
-              <li
-                style={{
-                  marginBottom: "8px",
-                  fontWeight: "400",
-                  fontSize: "14px",
-                  fontFamily: "Poppins, sans-serif",
-                }}
-              >
-                LCGC
-              </li>
-              <li
-                style={{
-                  marginBottom: "8px",
-                  fontWeight: "400",
-                  fontSize: "14px",
-                  fontFamily: "Poppins, sans-serif",
-                }}
-              >
-                Offroad
-              </li>
-              <li
-                style={{
-                  marginBottom: "8px",
-                  fontWeight: "400",
-                  fontSize: "14px",
-                  fontFamily: "Poppins, sans-serif",
-                }}
-              >
-                SUV
-              </li>
-            </ul>
+        <Link to="/listMenuClass">
+          <Box sx={{ display: "flex", paddingLeft: "15px" }}>
+            <Box sx={{ marginTop: "8px", marginRight: "80px" }}>
+              <ul style={{ color: "#fff" }}>
+                <li
+                  style={{
+                    marginBottom: "8px",
+                    fontWeight: "400",
+                    fontSize: "14px",
+                    fontFamily: "Poppins, sans-serif",
+                  }}
+                >
+                  Electric
+                </li>
+                <li
+                  style={{
+                    marginBottom: "8px",
+                    fontWeight: "400",
+                    fontSize: "14px",
+                    fontFamily: "Poppins, sans-serif",
+                  }}
+                >
+                  LCGC
+                </li>
+                <li
+                  style={{
+                    marginBottom: "8px",
+                    fontWeight: "400",
+                    fontSize: "14px",
+                    fontFamily: "Poppins, sans-serif",
+                  }}
+                >
+                  Offroad
+                </li>
+                <li
+                  style={{
+                    marginBottom: "8px",
+                    fontWeight: "400",
+                    fontSize: "14px",
+                    fontFamily: "Poppins, sans-serif",
+                  }}
+                >
+                  SUV
+                </li>
+              </ul>
+            </Box>
+            <Box sx={{ marginTop: "8px" }}>
+              <ul style={{ color: "#fff" }}>
+                <li
+                  style={{
+                    marginBottom: "8px",
+                    fontWeight: "400",
+                    fontSize: "14px",
+                    fontFamily: "Poppins, sans-serif",
+                  }}
+                >
+                  Hatchback
+                </li>
+                <li
+                  style={{
+                    marginBottom: "8px",
+                    fontWeight: "400",
+                    fontSize: "14px",
+                    fontFamily: "Poppins, sans-serif",
+                  }}
+                >
+                  MPV
+                </li>
+                <li
+                  style={{
+                    marginBottom: "8px",
+                    fontWeight: "400",
+                    fontSize: "14px",
+                    fontFamily: "Poppins, sans-serif",
+                  }}
+                >
+                  Sedan
+                </li>
+                <li
+                  style={{
+                    marginBottom: "8px",
+                    fontWeight: "400",
+                    fontSize: "14px",
+                    fontFamily: "Poppins, sans-serif",
+                  }}
+                >
+                  Truck
+                </li>
+              </ul>
+            </Box>
           </Box>
-          <Box sx={{ marginTop: "8px" }}>
-            <ul style={{ color: "#fff" }}>
-              <li
-                style={{
-                  marginBottom: "8px",
-                  fontWeight: "400",
-                  fontSize: "14px",
-                  fontFamily: "Poppins, sans-serif",
-                }}
-              >
-                Hatchback
-              </li>
-              <li
-                style={{
-                  marginBottom: "8px",
-                  fontWeight: "400",
-                  fontSize: "14px",
-                  fontFamily: "Poppins, sans-serif",
-                }}
-              >
-                MPV
-              </li>
-              <li
-                style={{
-                  marginBottom: "8px",
-                  fontWeight: "400",
-                  fontSize: "14px",
-                  fontFamily: "Poppins, sans-serif",
-                }}
-              >
-                Sedan
-              </li>
-              <li
-                style={{
-                  marginBottom: "8px",
-                  fontWeight: "400",
-                  fontSize: "14px",
-                  fontFamily: "Poppins, sans-serif",
-                }}
-              >
-                Truck
-              </li>
-            </ul>
-          </Box>
-        </Box>
+        </Link>
       </Box>
       <Box>
         <Typography

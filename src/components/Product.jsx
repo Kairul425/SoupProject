@@ -6,10 +6,32 @@ import {
   CardMedia,
   CardContent,
 } from "@mui/material";
-import { Link } from 'react-router-dom';
 
+import { useEffect, useState } from "react";
+import axios from "axios";
+import { Link, useParams, useLocation } from "react-router-dom";
+
+import soto from "../assets/soto.png";
 
 const Product = (props) => {
+  const location = useLocation();
+  const { type_name } = useParams();
+  const [data, setData] = useState([]);
+
+  useEffect(() => {
+    let apiUrl = "http://52.237.194.35:2024/api/Menu/GetMenuLimit";
+
+    if (location.pathname.includes("/ListMenuClass")) {
+      apiUrl = `http://52.237.194.35:2024/api/Menu/GetMenuByTypeName?type_name=${type_name}`;
+    }
+
+    axios.get(apiUrl).then((res) => setData(res.data));
+  }, [location, type_name]);
+
+  const formatPrice = (price) => {
+    return price.toLocaleString("id-ID");
+  };
+
   return (
     <Container
       maxWidth="lg"
@@ -38,17 +60,21 @@ const Product = (props) => {
           paddingX: "27px",
         }}
       >
-        {props.data?.map((product) => (
-          <Link key={product.id} to={`/DetailClass`} style={{ textDecoration: 'none' }}>
+        {data?.map((product) => (
+          <Link
+            key={product.id_menu}
+            to={`/DetailClass/${product.title}`}
+            style={{ textDecoration: "none" }}
+          >
             <Card
-              key={product.id}
+              key={product.id_menu}
               sx={{ maxWidth: "350px", marginBottom: "40px" }}
             >
               <CardMedia
                 component="img"
-                alt={product.name}
+                alt={product.type_name}
                 height="233.333px"
-                image={product.image}
+                image={soto}
               />
               <CardContent>
                 <Typography
@@ -60,7 +86,7 @@ const Product = (props) => {
                     fontWeight: "400",
                   }}
                 >
-                  {product.name}
+                  {product.type_name}
                 </Typography>
                 <Typography
                   variant="h3"
@@ -72,7 +98,7 @@ const Product = (props) => {
                     marginBottom: "60px",
                   }}
                 >
-                  {product.description}
+                  {product.title}
                 </Typography>
                 <Typography
                   variant="h3"
@@ -83,7 +109,7 @@ const Product = (props) => {
                     fontWeight: "600",
                   }}
                 >
-                  {product.price}
+                  IDR {formatPrice(product.price)}
                 </Typography>
               </CardContent>
             </Card>
