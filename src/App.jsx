@@ -12,23 +12,18 @@ import "./App.css";
 
 const App = () => {
   return (
-    <>
-      <Routes>
-        <Route path="/">
-          <Route index element={<HomePage />} />
-          <Route path={"/login"} element={<Login />} />
-          <Route path={"/register"} element={<Register />} />
-          <Route path={"/createPassword"} element={<CreatePassword />} />
-          <Route path={"/resetPassword"} element={<ResetPassword />} />
-          <Route
-            path={"/listMenuClass/:type_name"}
-            element={<ListMenuClass />}
-          />
-          <Route path={"/detailClass/:title"} element={<DetailClass />} />
-          <Route path={"/checkout"} element={<Checkout />} />
-        </Route>
-      </Routes>
-    </>
+    <Routes>
+      <Route path="/">
+        <Route index element={<HomePage />} />
+        <Route path={"/login"} element={<Login />} />
+        <Route path={"/register"} element={<Register />} />
+        <Route path={"/createPassword"} element={<CreatePassword />} />
+        <Route path={"/resetPassword"} element={<ResetPassword />} />
+        <Route path={"/listMenuClass/:type_name"} element={<ListMenuClass />} />
+        <Route path={"/detailClass/:title"} element={<DetailClass />} />
+        <Route path={"/checkout"} element={<Checkout />} />
+      </Route>
+    </Routes>
   );
 };
 

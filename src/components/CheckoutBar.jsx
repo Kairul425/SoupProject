@@ -1,5 +1,8 @@
+import { useState } from "react";
 import { AppBar, Box, Button, Typography } from "@mui/material";
 import { createTheme, ThemeProvider } from "@mui/material/styles";
+
+import PaymentMethod from "./PaymentMethod";
 
 const theme = createTheme({
   palette: {
@@ -10,6 +13,18 @@ const theme = createTheme({
 });
 
 const CheckoutBar = () => {
+  const [open, setOpen] = useState(false);
+  const [selectedValue, setSelectedValue] = useState(null);
+
+  const handleClickOpen = () => {
+    setOpen(true);
+  };
+
+  const handleClose = (value) => {
+    setOpen(false);
+    setSelectedValue(value);
+  };
+
   const buttonStyle = {
     width: "175px",
     borderRadius: "8px",
@@ -68,12 +83,18 @@ const CheckoutBar = () => {
               style={buttonStyle}
               color="orange"
               sx={{ boxShadow: "none" }}
+              onClick={handleClickOpen}
             >
               Pay Now
             </Button>
           </Box>
         </Box>
       </AppBar>
+      <PaymentMethod
+        selectedValue={selectedValue}
+        open={open}
+        onClose={handleClose}
+      />
     </ThemeProvider>
   );
 };
