@@ -6,6 +6,10 @@ import HomePage from "./pages/HomePage";
 import ListMenuClass from "./pages/ListMenuClass";
 import DetailClass from "./pages/DetailClass";
 import Checkout from "./pages/Checkout";
+import Invoice from "./pages/Invoice";
+import DetailInvoice from "./pages/DetailInvoice";
+import MyClass from "./pages/MyClass";
+
 import { Routes, Route } from "react-router-dom";
 
 import "./App.css";
@@ -22,6 +26,9 @@ const App = () => {
         <Route path={"/listMenuClass/:type_name"} element={<ListMenuClass />} />
         <Route path={"/detailClass/:title"} element={<DetailClass />} />
         <Route path={"/checkout"} element={<Checkout />} />
+        <Route path={"/invoice"} element={<Invoice />} />
+        <Route path={"/detailInvoice"} element={<DetailInvoice />} />
+        <Route path={"/myClass"} element={<MyClass />} />
       </Route>
     </Routes>
   );
