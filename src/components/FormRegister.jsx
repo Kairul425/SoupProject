@@ -1,6 +1,7 @@
 import { Box, Typography, TextField, Button, Link, Alert } from "@mui/material";
 import { createTheme, ThemeProvider } from "@mui/material/styles";
 import React, { useState } from "react";
+import { Link as RouterLink } from 'react-router-dom';
 
 const theme = createTheme({
   palette: {
@@ -38,6 +39,7 @@ const FormRegister = () => {
       setPasswordError("Password and Confirm Password must be the same");
       return;
     }
+    console.log(formData); //untuk cek
 
     // Add your sign-up logic here
     // ...
@@ -142,15 +144,17 @@ const FormRegister = () => {
             marginBottom: "60px",
           }}
         >
-          <Button
-            variant="contained"
-            style={buttonStyle}
-            color="orange"
-            sx={{ boxShadow: "none" }}
-            onClick={handleSignUp}
-          >
-            Sign Up
-          </Button>
+          <RouterLink to="/">
+            <Button
+              variant="contained"
+              style={buttonStyle}
+              color="orange"
+              sx={{ boxShadow: "none" }}
+              onClick={handleSignUp}
+            >
+              Sign Up
+            </Button>
+          </RouterLink>
         </Box>
         <Typography
           variant="subtitle1"

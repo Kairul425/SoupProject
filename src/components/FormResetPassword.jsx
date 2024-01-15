@@ -133,15 +133,28 @@ const FormResetPassword = ({ onSubmit }) => {
               Cancel
             </Button>
           </Link>
-          <Button
-            variant="contained"
-            style={buttonStyle}
-            color="orangeB"
-            sx={{ boxShadow: "none" }}
-            onClick={handleConfirm}
-          >
-            Confirm
-          </Button>
+          {isValidEmail(email) ? (
+            <Link to="/emailConfirmation" style={{ textDecoration: "none" }}>
+              <Button
+                variant="contained"
+                style={buttonStyle}
+                color="orangeB"
+                sx={{ boxShadow: "none" }}
+                onClick={handleConfirm}
+              >
+                Confirm
+              </Button>
+            </Link>
+          ) : (
+            <Button
+              variant="contained"
+              style={{ ...buttonStyle, cursor: "not-allowed" }}
+              color="orangeB"
+              disabled
+            >
+              Confirm
+            </Button>
+          )}
         </Box>
       </Box>
     </ThemeProvider>

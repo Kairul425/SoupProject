@@ -1,7 +1,7 @@
-import { Box, Typography, TextField, Button, Alert } from "@mui/material";
+import { Box, Typography, TextField, Button, Alert, Link } from "@mui/material";
 import { createTheme, ThemeProvider } from "@mui/material/styles";
 import { useState } from "react";
-import { Link } from "react-router-dom";
+import { Link as RouterLink, useNavigate } from 'react-router-dom';
 
 const theme = createTheme({
   palette: {
@@ -19,6 +19,7 @@ const FormCreatePassword = () => {
   const [confirmPassword, setConfirmPassword] = useState(""); // State for the confirm password input
   const [newPassword, setNewPassword] = useState("");
   const [passwordError, setPasswordError] = useState(false); // State for password error
+  const navigate = useNavigate();
 
   const handlePasswordChange = (event) => {
     setPassword(event.target.value);
@@ -65,6 +66,9 @@ const FormCreatePassword = () => {
     setConfirmPassword("");
     // Reset password error
     setPasswordError(false);
+
+    navigate('/login');
+
   };
 
   const buttonStyle = {
@@ -128,7 +132,7 @@ const FormCreatePassword = () => {
             gap: "24px",
           }}
         >
-          <Link to="/login">
+          <RouterLink to="/login">
             <Button
               variant="outlined"
               style={buttonStyle}
@@ -138,18 +142,16 @@ const FormCreatePassword = () => {
             >
               Cancel
             </Button>
-          </Link>
-          <Link to="/login">
-            <Button
-              variant="contained"
-              style={buttonStyle}
-              color="orangeB"
-              sx={{ boxShadow: "none" }}
-              onClick={handleSubmit}
-            >
-              Submit
-            </Button>
-          </Link>
+          </RouterLink>
+          <Button
+            variant="contained"
+            style={buttonStyle}
+            color="orangeB"
+            sx={{ boxShadow: "none" }}
+            onClick={handleSubmit}
+          >
+            Submit
+          </Button>
         </Box>
       </Box>
     </ThemeProvider>

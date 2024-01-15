@@ -1,6 +1,7 @@
 import { Box, Typography, TextField, Button, Link } from "@mui/material";
 import { createTheme, ThemeProvider } from "@mui/material/styles";
 import { useState } from "react";
+import { Link as RouterLink } from 'react-router-dom';
 
 const theme = createTheme({
   palette: {
@@ -96,6 +97,20 @@ const FormLogin = () => {
             onChange={handleInputChange}
           />
         </Box>
+        <Typography
+          variant="h3"
+          sx={{
+            fontSize: "16px",
+            fontWeight: "400",
+            color: "#5B4947",
+            marginBottom: "16px",
+          }}
+        >
+          Forgot Password?
+          <Link href="resetPassword" underline="none">
+            {" Click Here"}
+          </Link>
+        </Typography>
         <Box
           sx={{
             width: "100%",
@@ -104,15 +119,17 @@ const FormLogin = () => {
             marginBottom: "60px",
           }}
         >
-          <Button
-            variant="contained"
-            style={buttonStyle}
-            color="orange"
-            sx={{ boxShadow: "none" }}
-            onClick={handleLogin}
-          >
-            Login
-          </Button>
+          <RouterLink to="/">
+            <Button
+              variant="contained"
+              style={buttonStyle}
+              color="orange"
+              sx={{ boxShadow: 'none' }}
+              onClick={handleLogin}
+            >
+              Login
+            </Button>
+          </RouterLink>
         </Box>
         <Typography
           variant="subtitle1"

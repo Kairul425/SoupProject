@@ -61,98 +61,112 @@ const Footer = () => {
         >
           Product
         </Typography>
-        <Link to="/listMenuClass">
-          <Box sx={{ display: "flex", paddingLeft: "15px" }}>
-            <Box sx={{ marginTop: "8px", marginRight: "80px" }}>
-              <ul style={{ color: "#fff" }}>
-                <li
-                  style={{
-                    marginBottom: "8px",
-                    fontWeight: "400",
-                    fontSize: "14px",
-                    fontFamily: "Poppins, sans-serif",
-                  }}
-                >
-                  Electric
-                </li>
-                <li
-                  style={{
-                    marginBottom: "8px",
-                    fontWeight: "400",
-                    fontSize: "14px",
-                    fontFamily: "Poppins, sans-serif",
-                  }}
-                >
-                  LCGC
-                </li>
-                <li
-                  style={{
-                    marginBottom: "8px",
-                    fontWeight: "400",
-                    fontSize: "14px",
-                    fontFamily: "Poppins, sans-serif",
-                  }}
-                >
-                  Offroad
-                </li>
-                <li
-                  style={{
-                    marginBottom: "8px",
-                    fontWeight: "400",
-                    fontSize: "14px",
-                    fontFamily: "Poppins, sans-serif",
-                  }}
-                >
-                  SUV
-                </li>
-              </ul>
-            </Box>
-            <Box sx={{ marginTop: "8px" }}>
-              <ul style={{ color: "#fff" }}>
-                <li
-                  style={{
-                    marginBottom: "8px",
-                    fontWeight: "400",
-                    fontSize: "14px",
-                    fontFamily: "Poppins, sans-serif",
-                  }}
-                >
-                  Hatchback
-                </li>
-                <li
-                  style={{
-                    marginBottom: "8px",
-                    fontWeight: "400",
-                    fontSize: "14px",
-                    fontFamily: "Poppins, sans-serif",
-                  }}
-                >
-                  MPV
-                </li>
-                <li
-                  style={{
-                    marginBottom: "8px",
-                    fontWeight: "400",
-                    fontSize: "14px",
-                    fontFamily: "Poppins, sans-serif",
-                  }}
-                >
-                  Sedan
-                </li>
-                <li
-                  style={{
-                    marginBottom: "8px",
-                    fontWeight: "400",
-                    fontSize: "14px",
-                    fontFamily: "Poppins, sans-serif",
-                  }}
-                >
-                  Truck
-                </li>
-              </ul>
-            </Box>
+        <Box sx={{ display: "flex", paddingLeft: "15px" }}>
+          <Box sx={{ marginTop: "8px", marginRight: "80px" }}>
+            <ul style={{ color: "#fff" }}>
+              <li
+                style={{
+                  marginBottom: "8px",
+                  fontWeight: "400",
+                  fontSize: "14px",
+                  fontFamily: "Poppins, sans-serif",
+                }}
+              >
+                <Link to="/ListMenuClass/Asian" style={{ textDecoration: "none", color: "#fff", whiteSpace: "nowrap" }}>
+                Asian
+                </Link>
+              </li>
+              <li
+                style={{
+                  marginBottom: "8px",
+                  fontWeight: "400",
+                  fontSize: "14px",
+                  fontFamily: "Poppins, sans-serif",
+                }}
+              >
+                <Link to="/ListMenuClass/Western" style={{ textDecoration: "none", color: "#fff", whiteSpace: "nowrap" }}>
+                Western
+                </Link>
+              </li>
+              <li
+                style={{
+                  marginBottom: "8px",
+                  fontWeight: "400",
+                  fontSize: "14px",
+                  fontFamily: "Poppins, sans-serif",
+                }}
+              >
+                <Link to="/ListMenuClass/Cookies" style={{ textDecoration: "none", color: "#fff", whiteSpace: "nowrap" }}>
+                Cookies
+                </Link>
+              </li>
+              <li
+                style={{
+                  marginBottom: "8px",
+                  fontWeight: "400",
+                  fontSize: "14px",
+                  fontFamily: "Poppins, sans-serif",
+                }}
+              >
+                <Link to="/ListMenuClass/Indonesia Food" style={{ textDecoration: "none", color: "#fff", whiteSpace: "nowrap" }}>
+                Indonesia Food
+                </Link>
+              </li>
+            </ul>
           </Box>
-        </Link>
+          <Box sx={{ marginTop: "8px" }}>
+            <ul style={{ color: "#fff" }}>
+              <li
+                style={{
+                  marginBottom: "8px",
+                  fontWeight: "400",
+                  fontSize: "14px",
+                  fontFamily: "Poppins, sans-serif",
+                }}
+              >
+                <Link to="/ListMenuClass/Hot Drink" style={{ textDecoration: "none", color: "#fff", whiteSpace: "nowrap" }}>
+                Hot Drink
+                </Link>
+              </li>
+              <li
+                style={{
+                  marginBottom: "8px",
+                  fontWeight: "400",
+                  fontSize: "14px",
+                  fontFamily: "Poppins, sans-serif",
+                }}
+              >
+                <Link to="/ListMenuClass/Cold Drink" style={{ textDecoration: "none", color: "#fff", whiteSpace: "nowrap" }}>
+                Cold Drink
+                </Link>
+              </li>
+              <li
+                style={{
+                  marginBottom: "8px",
+                  fontWeight: "400",
+                  fontSize: "14px",
+                  fontFamily: "Poppins, sans-serif",
+                }}
+              >
+                <Link to="/ListMenuClass/Junk Food" style={{ textDecoration: "none", color: "#fff", whiteSpace: "nowrap" }}>
+                Junk Food
+                </Link>
+              </li>
+              <li
+                style={{
+                  marginBottom: "8px",
+                  fontWeight: "400",
+                  fontSize: "14px",
+                  fontFamily: "Poppins, sans-serif",
+                }}
+              >
+                <Link to="/ListMenuClass/Desert" style={{ textDecoration: "none", color: "#fff", whiteSpace: "nowrap" }}>
+                Desert
+                </Link>
+              </li>
+            </ul>
+          </Box>
+        </Box>
       </Box>
       <Box>
         <Typography

@@ -29,13 +29,13 @@ const Menu = () => {
         </Button>
       </Link>
 
-      <Link to={`#`} style={{ textDecoration: "none" }}>
+      <Link to={`/myClass`} style={{ textDecoration: "none" }}>
         <Button variant="text" style={buttonStyle}>
           My Class
         </Button>
       </Link>
 
-      <Link to={`#`} style={{ textDecoration: "none" }}>
+      <Link to={`/invoice`} style={{ textDecoration: "none" }}>
         <Button variant="text" style={buttonStyle}>
           Invoice
         </Button>
@@ -45,12 +45,12 @@ const Menu = () => {
         |
       </Typography>
       <Box sx={{ display: "flex", alignItems: "center" }}>
-        <Link to={`#`} style={{ textDecoration: "none" }}>
+        <Link to={`/resetPassword`} style={{ textDecoration: "none" }}>
           <Button variant="text" sx={{ color: "#FABC1D", padding: "5px" }}>
             <PersonIcon fontSize="large" />
           </Button>
         </Link>
-        <Link to={`#`} style={{ textDecoration: "none" }}>
+        <Link to={`/login`} style={{ textDecoration: "none" }}>
           <Button variant="text" sx={{ color: "#5B4947", padding: "5px" }}>
             <LogoutIcon fontSize="medium" />
           </Button>

@@ -9,6 +9,8 @@ import Checkout from "./pages/Checkout";
 import Invoice from "./pages/Invoice";
 import DetailInvoice from "./pages/DetailInvoice";
 import MyClass from "./pages/MyClass";
+import EmailConfirmation from "./pages/EmailConfirmation";
+import PurchaseConfirmation from "./pages/PurchaseConfirmation";
 
 import { Routes, Route } from "react-router-dom";
 
@@ -23,6 +25,8 @@ const App = () => {
         <Route path={"/register"} element={<Register />} />
         <Route path={"/createPassword"} element={<CreatePassword />} />
         <Route path={"/resetPassword"} element={<ResetPassword />} />
+        <Route path={"/emailConfirmation"} element={<EmailConfirmation />} />
+        <Route path={"/purchaseConfirmation"} element={<PurchaseConfirmation />} />
         <Route path={"/listMenuClass/:type_name"} element={<ListMenuClass />} />
         <Route path={"/detailClass/:title"} element={<DetailClass />} />
         <Route path={"/checkout"} element={<Checkout />} />
