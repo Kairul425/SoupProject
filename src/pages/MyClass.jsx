@@ -7,15 +7,11 @@ import {
   Typography,
 } from "@mui/material";
 
-import Navbar from "../components/Navbar";
-import Footer from "../components/Footer";
-
 import soto from "../assets/soto.png";
 
 const MyClass = () => {
   return (
     <div>
-      <Navbar />
       <Container
         maxWidth="lg"
         sx={{
@@ -65,7 +61,6 @@ const MyClass = () => {
           </ListItem>
         </List>
       </Container>
-      <Footer />
     </div>
   );
 };

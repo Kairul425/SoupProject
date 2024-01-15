@@ -6,7 +6,6 @@ import FormRegister from "../components/FormRegister";
 const Register = () => {
   return (
     <>
-      <Navbar />
       <Container
         maxWidth="xl"
         sx={{

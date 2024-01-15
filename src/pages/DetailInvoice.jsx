@@ -7,7 +7,6 @@ import TableDetail from "../components/TableDetail";
 const DetailInvoice = () => {
   return (
     <>
-      <Navbar />
       <Container
         maxWidth="lg"
         sx={{
@@ -71,7 +70,6 @@ const DetailInvoice = () => {
         </Box>
         <TableDetail />
       </Container>
-      <Footer />
     </>
   );
 };

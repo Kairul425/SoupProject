@@ -11,7 +11,6 @@ const Checkout = () => {
   }, []);
   return (
     <Box sx={{ marginTop: "75px" }}>
-      <Navbar />
       <CheckoutList />
       <CheckoutBar />
     </Box>

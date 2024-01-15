@@ -7,6 +7,7 @@ import TableHead from "@mui/material/TableHead";
 import TableRow from "@mui/material/TableRow";
 import Paper from "@mui/material/Paper";
 import { Button } from "@mui/material";
+import { Link } from 'react-router-dom';
 
 const StyledTableCell = styled(TableCell)(({ theme }) => ({
   [`&.${tableCellClasses.head}`]: {
@@ -99,9 +100,11 @@ const TableInvoice = () => {
                 IDR {parsePrice(row.totalPrice)}
               </StyledTableCell>
               <StyledTableCell align="right" sx={{ textAlign: "center" }}>
-                <Button variant="contained" sx={buttonStyle}>
-                  Details
-                </Button>
+                <Link to="/detailInvoice">
+                  <Button variant="contained" sx={buttonStyle}>
+                    Details
+                  </Button>
+                </Link>
               </StyledTableCell>
             </StyledTableRow>
           ))}

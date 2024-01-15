@@ -1,13 +1,10 @@
 import { Container, Typography } from "@mui/material";
 
-import Navbar from "../components/Navbar";
-import Footer from "../components/Footer";
 import TableInvoice from "../components/TableInvoice";
 
 const Invoice = () => {
   return (
     <>
-      <Navbar />
       <Container
         maxWidth="lg"
         sx={{
@@ -41,7 +38,6 @@ const Invoice = () => {
         </Typography>
         <TableInvoice />
       </Container>
-      <Footer />
     </>
   );
 };

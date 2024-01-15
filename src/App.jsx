@@ -11,6 +11,7 @@ import DetailInvoice from "./pages/DetailInvoice";
 import MyClass from "./pages/MyClass";
 import EmailConfirmation from "./pages/EmailConfirmation";
 import PurchaseConfirmation from "./pages/PurchaseConfirmation";
+import Layout from "./components/Layout"
 
 import { Routes, Route } from "react-router-dom";
 
@@ -19,7 +20,7 @@ import "./App.css";
 const App = () => {
   return (
     <Routes>
-      <Route path="/">
+      <Route path="/" element={<Layout />}>
         <Route index element={<HomePage />} />
         <Route path={"/login"} element={<Login />} />
         <Route path={"/register"} element={<Register />} />

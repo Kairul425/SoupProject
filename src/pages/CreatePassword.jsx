@@ -1,12 +1,10 @@
 import { Container } from "@mui/material";
 
-import Navbar from "../components/Navbar";
 import FormCreatePassword from "../components/FormCreatePassword";
 
 const CreatePassword = () => {
   return (
     <>
-      <Navbar />
       <Container
         maxWidth="xl"
         sx={{
