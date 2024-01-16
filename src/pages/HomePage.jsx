@@ -1,6 +1,5 @@
 import { Box } from "@mui/material";
 import { useEffect } from "react";
-import { useLocation } from "react-router-dom";
 
 import Banner from "../components/Banner";
 import Product from "../components/Product";

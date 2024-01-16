@@ -60,10 +60,10 @@ const Product = (props) => {
           paddingX: "27px",
         }}
       >
-        {data?.map((product) => (
+        {data?.map((product, index) => (
           <Link
             key={product.id_menu}
-            to={`/DetailClass/${product.title}`}
+            to={`/DetailClass/${product.title}/${index}`}
             style={{ textDecoration: "none" }}
           >
             <Card

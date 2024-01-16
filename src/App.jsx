@@ -11,7 +11,7 @@ import DetailInvoice from "./pages/DetailInvoice";
 import MyClass from "./pages/MyClass";
 import EmailConfirmation from "./pages/EmailConfirmation";
 import PurchaseConfirmation from "./pages/PurchaseConfirmation";
-import Layout from "./components/Layout"
+import Layout from "./components/Layout";
 
 import { Routes, Route } from "react-router-dom";
 
@@ -27,9 +27,12 @@ const App = () => {
         <Route path={"/createPassword"} element={<CreatePassword />} />
         <Route path={"/resetPassword"} element={<ResetPassword />} />
         <Route path={"/emailConfirmation"} element={<EmailConfirmation />} />
-        <Route path={"/purchaseConfirmation"} element={<PurchaseConfirmation />} />
+        <Route
+          path={"/purchaseConfirmation"}
+          element={<PurchaseConfirmation />}
+        />
         <Route path={"/listMenuClass/:type_name"} element={<ListMenuClass />} />
-        <Route path={"/detailClass/:title"} element={<DetailClass />} />
+        <Route path={"/detailClass/:title/:index"} element={<DetailClass />} />
         <Route path={"/checkout"} element={<Checkout />} />
         <Route path={"/invoice"} element={<Invoice />} />
         <Route path={"/detailInvoice"} element={<DetailInvoice />} />

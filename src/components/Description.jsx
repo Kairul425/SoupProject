@@ -1,5 +1,8 @@
 import { Container, Box, Typography, TextField } from "@mui/material";
 import MenuItem from "@mui/material/MenuItem";
+import { useState, useEffect } from "react";
+import axios from "axios";
+import { useParams } from "react-router-dom";
 
 import ButtonCombo from "./utils/ButtonCombo";
 
@@ -25,6 +28,20 @@ const currencies = [
 ];
 
 const Description = () => {
+  const { type_name, index } = useParams();
+  const [data, setData] = useState([]);
+
+  useEffect(() => {
+    axios
+      .get(`http://52.237.194.35:2024/api/Menu/GetMenuLimit`)
+      .then((res) => setData(res.data));
+  }, [type_name]);
+
+  const formatPrice = (price) => {
+    const NumberPrice = Number(price);
+    return NumberPrice.toLocaleString("id-ID");
+  };
+
   return (
     <Container
       maxWidth="lg"
@@ -46,7 +63,7 @@ const Description = () => {
               fontFamily: "Montserrat, sans-serif",
             }}
           >
-            Asian
+            {data[index]?.type_name}
           </Typography>
           <Typography
             sx={{
@@ -56,7 +73,7 @@ const Description = () => {
               fontFamily: "Montserrat, sans-serif",
             }}
           >
-            Tom Yum Thailand
+            {data[index]?.title}
           </Typography>
           <Typography
             sx={{
@@ -66,7 +83,7 @@ const Description = () => {
               fontFamily: "Montserrat, sans-serif",
             }}
           >
-            IDR 450.000
+            IDR {formatPrice(data[index]?.price)}
           </Typography>
           <TextField
             id="outlined-select-currency"
@@ -122,13 +139,7 @@ const Description = () => {
             marginBottom: "24px",
           }}
         >
-          Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do
-          eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad
-          minim veniam, quis nostrud exercitation ullamco laboris nisi ut
-          aliquip ex ea commodo consequat. Duis aute irure dolor in
-          reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla
-          pariatur. Excepteur sint occaecat cupidatat non proident, sunt in
-          culpa qui officia deserunt mollit anim id est laborum.
+          {data[index]?.description}
         </Typography>
         <Typography
           sx={{
