@@ -1,4 +1,7 @@
 import { Box, Container, Typography } from "@mui/material";
+import { Swiper, SwiperSlide } from "swiper/react";
+
+import "swiper/css";
 
 import banner from "../assets/banner.png";
 
@@ -6,8 +9,8 @@ const Kotak = (props) => {
   return (
     <Box
       sx={{
-        width: "324px",
-        height: "207px",
+        width: { xs: "324px", sm: "250px", md: "324px" },
+        height: { xs: "207px", sm: "190px", md: "207px" },
         textAlign: "center",
         padding: "10px",
         border: "1px solid #BDBDBD",
@@ -19,7 +22,7 @@ const Kotak = (props) => {
         sx={{
           color: "#FABC1D",
           fontFamily: "Montserrat, sans-serif",
-          fontSize: "48px",
+          fontSize: { xs: "48px", sm: "40px", md: "48px" },
           fontWeight: "600",
           marginBottom: "31px",
         }}
@@ -31,7 +34,7 @@ const Kotak = (props) => {
         sx={{
           color: "#5B4947",
           fontFamily: "Montserrat, sans-serif",
-          fontSize: "16px",
+          fontSize: { xs: "16px", sm: "14px", md: "16px" },
           fontWeight: "500px",
         }}
       >
@@ -50,22 +53,27 @@ const Banner = () => {
           backgroundPosition: "center",
           backgroundRepeat: "no-repeat",
           backgroundSize: "cover",
-          height: "274px",
+          height: { xs: "200px", md: "274px" },
           display: "flex",
           justifyContent: "center",
           alignItems: "center",
-          marginBottom: "60px",
+          marginBottom: { xs: "48px", md: "60px" },
         }}
       >
-        <Box sx={{ textAlign: "center", width: "843px" }}>
+        <Box
+          sx={{
+            textAlign: "center",
+            width: "843px",
+            paddingX: { xs: "7px", sm: "9px" },
+          }}
+        >
           <Typography
             variant="h4"
             sx={{
               color: "#fff",
-
               fontFamily: "Montserrat, sans-serif",
               fontWeight: "600",
-              fontSize: "32px",
+              fontSize: { xs: "24px", sm: "27", md: "32px" },
               marginBottom: "27px",
             }}
           >
@@ -78,7 +86,7 @@ const Banner = () => {
 
               fontFamily: "Montserrat, sans-serif",
               fontWeight: "400",
-              fontSize: "24px",
+              fontSize: { xs: "16px", sm: "19px", md: "24px" },
             }}
           >
             We are able to awaken your cooking skills to become a classy chef
@@ -91,11 +99,16 @@ const Banner = () => {
         sx={{
           display: "flex",
           justifyContent: "center",
-          // backgroundColor: "red",
           marginBottom: "56px",
         }}
       >
-        <Box sx={{ width: "1052px", display: "flex", gap: "40px" }}>
+        <Box
+          sx={{
+            width: "1052px",
+            display: { xs: "none", sm: "flex" },
+            gap: { sm: "20px", md: "40px" },
+          }}
+        >
           <Kotak
             num="200+"
             text="Various cuisines available in professional class"
@@ -108,6 +121,43 @@ const Banner = () => {
             num="30+"
             text="Cooperate with trusted and upscale restaurants"
           />
+        </Box>
+        <Box sx={{ display: { xs: "block", sm: "none" }, width: "100%" }}>
+          <Swiper className="mySwiper">
+            <SwiperSlide
+              style={{
+                display: "flex",
+                justifyContent: "center",
+              }}
+            >
+              <Kotak
+                num="200+"
+                text="Various cuisines available in professional class"
+              />
+            </SwiperSlide>
+            <SwiperSlide
+              style={{
+                display: "flex",
+                justifyContent: "center",
+              }}
+            >
+              <Kotak
+                num="50+"
+                text="A chef who is reliable and has his own characteristics in cooking"
+              />
+            </SwiperSlide>
+            <SwiperSlide
+              style={{
+                display: "flex",
+                justifyContent: "center",
+              }}
+            >
+              <Kotak
+                num="30+"
+                text="Cooperate with trusted and upscale restaurants"
+              />
+            </SwiperSlide>
+          </Swiper>
         </Box>
       </Container>
     </Box>

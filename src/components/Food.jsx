@@ -28,7 +28,7 @@ const Food = () => {
         sx={{
           color: "#5B4947",
           textAlign: "center",
-          fontSize: "32px",
+          fontSize: { xs: "26px", sm: "29px", md: "32px" },
           fontWeight: "600",
           fontFamily: "Montserrat, sans-serif",
         }}
@@ -48,7 +48,8 @@ const Food = () => {
             width: "880px",
             display: "flex",
             flexWrap: "wrap",
-            gap: "24px",
+            justifyContent: "center",
+            gap: { xs: "16px", sm: "24px" },
           }}
         >
           {foods?.map((food) => (
@@ -60,7 +61,7 @@ const Food = () => {
               <Card
                 key={food.id_type}
                 sx={{
-                  maxWidth: "200px",
+                  maxWidth: { xs: "105px", sm: "170px", md: "200px" },
                   marginBottom: "27px",
                   boxShadow: "none",
                 }}
@@ -75,7 +76,7 @@ const Food = () => {
                     sx={{
                       color: "#000",
                       textAlign: "center",
-                      fontSize: "24px",
+                      fontSize: { xs: "16px", sm: "19px", md: "24px" },
                       fontFamily: "Montserrat, sans-serif",
                       fontWeight: "400",
                     }}

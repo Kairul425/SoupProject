@@ -1,6 +1,6 @@
-import { Box, Button } from "@mui/material";
+import { Box, Button, Typography } from "@mui/material";
 import { createTheme, ThemeProvider } from "@mui/material/styles";
-import { Link } from 'react-router-dom';
+import { Link } from "react-router-dom";
 
 const theme = createTheme({
   palette: {
@@ -27,13 +27,13 @@ const ButtonNavbar = (props) => {
 
   return (
     <ThemeProvider theme={theme}>
-      <Box sx={{ display: "flex", gap: "16px" }}>
-        <Link to={props.firstLink} style={{ textDecoration: 'none' }}>
+      <Box sx={{ display: { xs: "none", md: "flex" }, gap: "16px" }}>
+        <Link to={props.firstLink} style={{ textDecoration: "none" }}>
           <Button variant="outlined" style={buttonStyle} color="brown">
             {props.first}
           </Button>
         </Link>
-        <Link to={props.lastLink} style={{ textDecoration: 'none' }}>
+        <Link to={props.lastLink} style={{ textDecoration: "none" }}>
           <Button
             variant="contained"
             style={buttonStyle}
@@ -42,6 +42,35 @@ const ButtonNavbar = (props) => {
           >
             {props.last}
           </Button>
+        </Link>
+      </Box>
+
+      <Box sx={{ display: { xs: "flex", md: "none" }, gap: "16px" }}>
+        <Link to={props.firstLink} style={{ textDecoration: "none" }}>
+          <Typography
+            variant="h4"
+            sx={{
+              color: "#5B4947",
+              fontWeight: "600",
+              fontFamily: "Montserrat",
+              fontSize: "16px",
+            }}
+          >
+            {props.first}
+          </Typography>
+        </Link>
+        <Link to={props.lastLink} style={{ textDecoration: "none" }}>
+          <Typography
+            variant="h4"
+            sx={{
+              color: "#5B4947",
+              fontWeight: "600",
+              fontFamily: "Montserrat",
+              fontSize: "16px",
+            }}
+          >
+            {props.last}
+          </Typography>
         </Link>
       </Box>
     </ThemeProvider>

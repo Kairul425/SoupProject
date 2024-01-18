@@ -5,6 +5,7 @@ import {
   Card,
   CardMedia,
   CardContent,
+  Grid,
 } from "@mui/material";
 
 import { useEffect, useState } from "react";
@@ -36,7 +37,7 @@ const Product = (props) => {
     <Container
       maxWidth="lg"
       sx={{
-        marginBottom: "120px",
+        marginBottom: { xs: "80px", md: "120px" },
       }}
     >
       <Typography
@@ -44,7 +45,7 @@ const Product = (props) => {
         sx={{
           color: "#5B4947",
           textAlign: "center",
-          fontSize: "32px",
+          fontSize: { xs: "26px", sm: "29px", md: "32px" },
           fontWeight: "600",
           fontFamily: "Montserrat, sans-serif",
         }}
@@ -53,68 +54,74 @@ const Product = (props) => {
       </Typography>
       <Box
         sx={{
-          marginTop: "80px",
-          display: "flex",
-          flexWrap: "wrap",
-          gap: "24px",
-          paddingX: "27px",
+          marginTop: { xs: "60px", md: "80px" },
+          paddingX: { xs: 0, sm: "19px", md: "27px" },
         }}
       >
-        {data?.map((product, index) => (
-          <Link
-            key={product.id_menu}
-            to={`/DetailClass/${product.title}/${index}`}
-            style={{ textDecoration: "none" }}
-          >
-            <Card
-              key={product.id_menu}
-              sx={{ maxWidth: "350px", marginBottom: "40px" }}
-            >
-              <CardMedia
-                component="img"
-                alt={product.type_name}
-                height="233.333px"
-                image={soto}
-              />
-              <CardContent>
-                <Typography
-                  variant="body1"
+        <Grid container spacing={{ xs: 1, sm: 2 }}>
+          {data?.map((product, index) => (
+            <Grid key={product.id_menu} item xs={6} sm={4} md={4}>
+              <Link
+                key={product.id_menu}
+                to={`/DetailClass/${product.title}/${index}`}
+                style={{ textDecoration: "none" }}
+              >
+                <Card
+                  key={product.id_menu}
                   sx={{
-                    color: "#828282",
-                    fontSize: "16px",
-                    fontFamily: "Montserrat, sans-serif",
-                    fontWeight: "400",
+                    marginBottom: { xs: "20px", md: "40px" },
+                    height: { xs: "290px", md: "400px" },
+                    position: "relative",
                   }}
                 >
-                  {product.type_name}
-                </Typography>
-                <Typography
-                  variant="h3"
-                  sx={{
-                    color: "#5B4947",
-                    fontSize: "20px",
-                    fontFamily: "Montserrat, sans-serif",
-                    fontWeight: "600",
-                    marginBottom: "60px",
-                  }}
-                >
-                  {product.title}
-                </Typography>
-                <Typography
-                  variant="h3"
-                  sx={{
-                    color: "#FABC1D",
-                    fontSize: "20px",
-                    fontFamily: "Montserrat, sans-serif",
-                    fontWeight: "600",
-                  }}
-                >
-                  IDR {formatPrice(product.price)}
-                </Typography>
-              </CardContent>
-            </Card>
-          </Link>
-        ))}
+                  <CardMedia
+                    component="img"
+                    alt={product.type_name}
+                    image={soto}
+                    sx={{ height: { xs: "160px", md: "233.333px" } }}
+                  />
+                  <CardContent>
+                    <Typography
+                      variant="body1"
+                      sx={{
+                        color: "#828282",
+                        fontSize: { xs: "12px", sm: "14px", md: "16px" },
+                        fontFamily: "Montserrat, sans-serif",
+                        fontWeight: "400",
+                      }}
+                    >
+                      {product.type_name}
+                    </Typography>
+                    <Typography
+                      variant="h3"
+                      sx={{
+                        color: "#5B4947",
+                        fontSize: { xs: "14px", sm: "18px", md: "20px" },
+                        fontFamily: "Montserrat, sans-serif",
+                        fontWeight: "600",
+                      }}
+                    >
+                      {product.title}
+                    </Typography>
+                    <Typography
+                      variant="h3"
+                      sx={{
+                        color: "#FABC1D",
+                        fontSize: { xs: "16px", md: "20px" },
+                        fontFamily: "Montserrat, sans-serif",
+                        fontWeight: "600",
+                        position: "absolute",
+                        bottom: { xs: "14px", sm: "24px", md: "30px" },
+                      }}
+                    >
+                      IDR {formatPrice(product.price)}
+                    </Typography>
+                  </CardContent>
+                </Card>
+              </Link>
+            </Grid>
+          ))}
+        </Grid>
       </Box>
     </Container>
   );

@@ -11,11 +11,14 @@ const Navbar = () => {
   const [isLogin, setIsLogin] = useState(true);
 
   return (
-    <AppBar position="fixed" sx={{ boxShadow: "none" }}>
+    <AppBar
+      position="fixed"
+      sx={{ boxShadow: "none", backgroundColor: "white" }}
+    >
       <Box
         sx={{
-          paddingX: "50px",
-          height: "75px",
+          paddingX: { xs: "20px", md: "50px" },
+          height: { xs: "60px", md: "75px" },
           backgroundColor: "white",
         }}
       >

@@ -11,7 +11,7 @@ const Benefit = () => {
         backgroundRepeat: "no-repeat",
         backgroundSize: "cover",
         height: "233px",
-        paddingX: "80px",
+        paddingX: { xs: "20px", md: "50px", lg: "80px" },
         display: "flex",
         alignItems: "center",
         marginBottom: "60px",
@@ -24,8 +24,8 @@ const Benefit = () => {
             color: "#fff",
             fontFamily: "Montserrat, sans-serif",
             fontWeight: "600",
-            fontSize: "40px",
-            marginBottom: "24px",
+            fontSize: { xs: "24px", md: "40px" },
+            marginBottom: { xs: "16px", md: "24px" },
           }}
         >
           Gets your best benefit
@@ -36,7 +36,7 @@ const Benefit = () => {
             color: "#fff",
             fontFamily: "Montserrat, sans-serif",
             fontWeight: "500",
-            fontSize: "16px",
+            fontSize: { xs: "9px", md: "16px" },
           }}
         >
           Sed ut perspiciatis unde omnis iste natus error sit voluptatem

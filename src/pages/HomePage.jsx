@@ -11,7 +11,7 @@ const HomePage = () => {
     window.scrollTo(0, 0);
   }, []);
   return (
-    <Box sx={{ marginTop: "75px" }}>
+    <Box sx={{ marginTop: { xs: "60px", md: "75px" } }}>
       <Banner />
       <Product title="More professional class" />
       <Benefit />
