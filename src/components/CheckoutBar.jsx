@@ -26,9 +26,7 @@ const CheckoutBar = () => {
   };
 
   const buttonStyle = {
-    width: "175px",
     borderRadius: "8px",
-    padding: "5px 20px",
     color: "#5B4947",
     fontSize: "16px",
     textTransform: "none",
@@ -41,7 +39,7 @@ const CheckoutBar = () => {
       <AppBar sx={{ position: "fixed", top: "auto", bottom: 0 }}>
         <Box
           sx={{
-            paddingX: "50px",
+            paddingX: { xs: "10px", sm: "50px" },
             height: "75px",
             backgroundColor: "white",
           }}
@@ -54,12 +52,18 @@ const CheckoutBar = () => {
               alignItems: "center",
             }}
           >
-            <Box sx={{ display: "flex", gap: "24px", alignItems: "center" }}>
+            <Box
+              sx={{
+                display: "flex",
+                gap: { xs: "15px", sm: "24px" },
+                alignItems: "center",
+              }}
+            >
               <Typography
                 variant="body2"
                 sx={{
                   color: "#333333",
-                  fontSize: "18px",
+                  fontSize: { xs: "14px", sm: "18px" },
                   fontWeight: "400",
                   fontFamily: "Montserrat, sans-serif",
                 }}
@@ -70,7 +74,7 @@ const CheckoutBar = () => {
                 variant="h4"
                 sx={{
                   color: "#FABC1D",
-                  fontSize: "24px",
+                  fontSize: { xs: "19px", sm: "24px" },
                   fontWeight: "600",
                   fontFamily: "Montserrat, sans-serif",
                 }}
@@ -81,8 +85,9 @@ const CheckoutBar = () => {
             <Button
               variant="contained"
               style={buttonStyle}
+              size="medium"
               color="orange"
-              sx={{ boxShadow: "none" }}
+              sx={{ boxShadow: "none", width: { xs: "120px", sm: "175px" } }}
               onClick={handleClickOpen}
             >
               Pay Now

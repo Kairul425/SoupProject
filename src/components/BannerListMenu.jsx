@@ -28,8 +28,8 @@ const BannerListMenu = () => {
           backgroundPosition: "center",
           backgroundRepeat: "no-repeat",
           backgroundSize: "cover",
-          height: "294px",
-          marginBottom: "46px",
+          height: { xs: "180px", sm: "294px" },
+          marginBottom: { xs: "32px", sm: "46px" },
         }}
       ></Box>
       <Container maxWidth="xl" sx={{ marginBottom: "80px" }}>
@@ -39,7 +39,7 @@ const BannerListMenu = () => {
             color: "#000",
             fontFamily: "Montserrat, sans-serif",
             fontWeight: "600",
-            fontSize: "24px",
+            fontSize: { xs: "19px", sm: "24px" },
           }}
         >
           {productData?.type_name}
@@ -50,8 +50,8 @@ const BannerListMenu = () => {
             color: "#333",
             fontFamily: "Montserrat, sans-serif",
             fontWeight: "400",
-            fontSize: "16px",
-            marginTop: "16px",
+            fontSize: { xs: "14px", sm: "16px" },
+            marginTop: { xs: "14px", sm: "16px" },
           }}
         >
           {productData?.description}

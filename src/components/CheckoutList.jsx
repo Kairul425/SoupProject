@@ -91,8 +91,7 @@ const CheckoutList = () => {
     >
       <Box
         sx={{
-          paddingX: "27px",
-          //   backgroundColor: "red",
+          paddingX: { xs: "0", sm: "27px" },
         }}
       >
         <List
@@ -104,12 +103,18 @@ const CheckoutList = () => {
             dense
             sx={{
               borderBottom: "1px solid #E0E0E0",
-              paddingY: "24px",
+              paddingY: { xs: "10px", sm: "24px" },
               display: "flex",
               alignItems: "center",
             }}
           >
-            <Box sx={{ display: "flex", alignItems: "center", gap: "25px" }}>
+            <Box
+              sx={{
+                display: "flex",
+                alignItems: "center",
+                gap: { xs: "10px", sm: "25px" },
+              }}
+            >
               <Checkbox
                 edge="start"
                 checked={checked.length === data.length}
@@ -141,14 +146,17 @@ const CheckoutList = () => {
                     />
                   </IconButton>
                 }
-                sx={{ borderBottom: "1px solid #E0E0E0", paddingY: "24px" }}
+                sx={{
+                  borderBottom: "1px solid #E0E0E0",
+                  paddingY: { xs: "5px", sm: "24px" },
+                }}
               >
                 <ListItemButton
                   role={undefined}
                   onClick={handleToggle(value)}
                   dense
                 >
-                  <ListItemIcon>
+                  <ListItemIcon sx={{ marginLeft: "-20px" }}>
                     <Checkbox
                       edge="start"
                       checked={checked.indexOf(value.id) !== -1}
@@ -157,25 +165,36 @@ const CheckoutList = () => {
                       color="default"
                     />
                   </ListItemIcon>
-                  <Box sx={{ display: "flex" }}>
-                    <img
-                      src={value.image}
-                      alt={value.name}
-                      style={{
-                        width: "200px",
-                        height: "130px",
-                        objectFit: "cover",
+                  <Box
+                    sx={{
+                      display: "flex",
+                      marginLeft: { xs: "-24px", sm: "0" },
+                    }}
+                  >
+                    <Box
+                      sx={{
+                        width: { xs: "180px", sm: "200px" },
+                        height: { xs: "120px", sm: "130px" },
                       }}
-                    />
-                    <Box sx={{ marginLeft: "24px" }}>
+                    >
+                      <img
+                        src={value.image}
+                        alt={value.name}
+                        style={{
+                          width: "100%",
+                          height: "100%",
+                        }}
+                      />
+                    </Box>
+                    <Box sx={{ marginLeft: { xs: "7px", sm: "24px" } }}>
                       <Typography
                         variant="body1"
                         sx={{
                           color: "#828282",
                           fontWeight: "400",
-                          fontSize: "16px",
+                          fontSize: { xs: "12px", sm: "14px" },
                           fontFamily: "Montserrat, sans-serif",
-                          marginY: "5px",
+                          marginY: { xs: "3px", sm: "5px" },
                         }}
                       >
                         {value.name}
@@ -185,7 +204,7 @@ const CheckoutList = () => {
                         sx={{
                           color: "#333333",
                           fontWeight: "600",
-                          fontSize: "24px",
+                          fontSize: { xs: "13px", sm: "24px" },
                           fontFamily: "Montserrat, sans-serif",
                         }}
                       >
@@ -196,9 +215,9 @@ const CheckoutList = () => {
                         sx={{
                           color: "#4F4F4F",
                           fontWeight: "400",
-                          fontSize: "16px",
+                          fontSize: { xs: "12px", sm: "16px" },
                           fontFamily: "Montserrat, sans-serif",
-                          marginY: "8px",
+                          marginY: { xs: "4px", sm: "8px" },
                         }}
                       >
                         {value.time}
@@ -208,7 +227,7 @@ const CheckoutList = () => {
                         sx={{
                           color: "#FABC1D",
                           fontWeight: "600",
-                          fontSize: "20px",
+                          fontSize: { xs: "12px", sm: "20px" },
                           fontFamily: "Montserrat, sans-serif",
                         }}
                       >

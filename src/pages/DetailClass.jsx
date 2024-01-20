@@ -9,7 +9,7 @@ const DetailClass = () => {
     window.scrollTo(0, 0);
   }, []);
   return (
-    <Box sx={{ marginTop: "75px" }}>
+    <Box sx={{ marginTop: { xs: "60px", md: "75px" } }}>
       <Description />
       <Product title="Another menu in this class" />
     </Box>
