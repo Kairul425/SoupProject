@@ -72,6 +72,10 @@ const Product = (props) => {
                     marginBottom: { xs: "20px", md: "40px" },
                     height: { xs: "290px", md: "400px" },
                     position: "relative",
+                    "&:hover": {
+                      transform: "scale(1.03)",
+                      transition: "all 0.3s ease",
+                    },
                   }}
                 >
                   <CardMedia
