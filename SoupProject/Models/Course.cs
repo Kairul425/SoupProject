@@ -2,12 +2,12 @@
 {
     public class Course
     {
-        public int id_course { get; set; }
-        public string nama_course { get; set; } = string.Empty;
-        public string img_course { get; set; }
-        public string? deskripsi_course { get; set; }
-        public decimal harga_course { get; set; }
-        public int id_kategori { get; set; }
+        public int courseId { get; set; }
+        public string namaCourse { get; set; } = string.Empty;
+        public string imgCourse { get; set; }
+        public string? deskripsiCourse { get; set; }
+        public decimal hargaCourse { get; set; }
+        public int kategoriId { get; set; }
         //public Kategori kategori { get; set; }
     }
 }

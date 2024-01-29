@@ -16,111 +16,111 @@ namespace SoupProject.Controllers
             _kategoriData = kategoriData;
         }
 
-        [HttpGet("GetAllKategori")]
-        public IActionResult GetAll()
+    [HttpGet("GetAllKategori")]
+    public IActionResult GetAll()
+    {
+        try
         {
-            try
-            {
-                List<Kategori> kategories = _kategoriData.GetAll();
-                return StatusCode(200, kategories);
-            }
-            catch (Exception ex)
-            {
-                return StatusCode(500, ex.Message);
-            }
+            List<Kategori> kategories = _kategoriData.GetAll();
+            return StatusCode(200, kategories);
+        }
+        catch (Exception ex)
+        {
+            return StatusCode(500, ex.Message);
+        }
+    }
+
+    [HttpGet("GetKategoriById")]
+    public IActionResult Get(int kategoriId)
+    {
+        Kategori? kategori = _kategoriData.GetById(kategoriId);
+
+        if (kategori == null)
+        {
+            return NotFound("Data not found");
         }
 
-        [HttpGet("GetKategoriById")]
-        public IActionResult Get(int id_kategori)
+        return Ok(kategori); //200
+    }
+
+    [HttpGet("GetByNamaKategori")]
+    public IActionResult GetByNamaCourse(string namaKategori)
+    {
+        Kategori? kategori = _kategoriData.GetByNamaCourse(namaKategori);
+
+        if (kategori == null)
         {
-            Kategori? kategori = _kategoriData.GetById(id_kategori);
-
-            if (kategori == null)
-            {
-                return NotFound("Data not found");
-            }
-
-            return Ok(kategori); //200
+            return NotFound("Data not found");
         }
 
-        [HttpGet("GetByNamaKategori")]
-        public IActionResult GetByNamaCourse(string nama_kategori)
+        return Ok(kategori); //200
+    }
+
+    [HttpPost("PostKategori")]
+    public IActionResult Post([FromBody] KategoriDTO kategoriDTO)
+    {
+        if (kategoriDTO == null)
+            return BadRequest("Data should be inputed");
+
+        Kategori kategori = new Kategori
         {
-            Kategori? kategori = _kategoriData.GetByNamaCourse(nama_kategori);
+            //id_kategori = Guid.NewGuid(),
+            namaKategori = kategoriDTO.namaKategori,
+            imgKategori = kategoriDTO.imgKategori,
+            deskripsiKategori = kategoriDTO.deskripsiKategori
+        };
 
-            if (kategori == null)
-            {
-                return NotFound("Data not found");
-            }
+        bool result = _kategoriData.Insert(kategori);
 
-            return Ok(kategori); //200
-        }
-
-        [HttpPost("PostKategori")]
-        public IActionResult Post([FromBody] KategoriDTO kategoriDTO)
+        if (result)
         {
-            if (kategoriDTO == null)
-                return BadRequest("Data should be inputed");
-
-            Kategori kategori = new Kategori
-            {
-                //id_kategori = Guid.NewGuid(),
-                nama_kategori = kategoriDTO.nama_kategori,
-                img_kategori = kategoriDTO.img_kategori,
-                deskripsi_kategori = kategoriDTO.deskripsi_kategori
-            };
-
-            bool result = _kategoriData.Insert(kategori);
-
-            if (result)
-            {
-                return StatusCode(201, kategori.id_kategori);
-            }
-            else
-            {
-                return StatusCode(500, "Error occur");
-            }
+            return StatusCode(201, "Success");
         }
-
-        [HttpPut("PutKategori")]
-        public IActionResult Put(int id_kategori, [FromBody] KategoriDTO kategoriDTO)
+        else
         {
-            if (kategoriDTO == null)
-                return BadRequest("Data should be inputed");
-
-            Kategori kategori = new Kategori
-            {
-                id_kategori = id_kategori,
-                nama_kategori = kategoriDTO.nama_kategori,
-                img_kategori = kategoriDTO.img_kategori,
-                deskripsi_kategori = kategoriDTO.deskripsi_kategori
-            };
-
-            bool result = _kategoriData.Update(id_kategori, kategori);
-
-            if (result)
-            {
-                return NoContent();//204
-            }
-            else
-            {
-                return StatusCode(500, "Error occur");
-            }
+            return StatusCode(500, "Error occur");
         }
+    }
 
-        [HttpDelete("DeleteKategori")]
-        public IActionResult Delete(int id_kategori)
+    [HttpPut("PutKategori")]
+    public IActionResult Put(int kategoriId, [FromBody] KategoriDTO kategoriDTO)
+    {
+        if (kategoriDTO == null)
+            return BadRequest("Data should be inputed");
+
+        Kategori kategori = new Kategori
         {
-            bool result = _kategoriData.Delete(id_kategori);
+            //id_kategori = id_kategori,
+            namaKategori = kategoriDTO.namaKategori,
+            imgKategori = kategoriDTO.imgKategori,
+            deskripsiKategori = kategoriDTO.deskripsiKategori
+        };
 
-            if (result)
-            {
-                return NoContent();
-            }
-            else
-            {
-                return StatusCode(500, "Error occur");
-            }
+        bool result = _kategoriData.Update(kategoriId, kategori);
+
+        if (result)
+        {
+            return NoContent();//204
         }
+        else
+        {
+            return StatusCode(500, "Error occur");
+        }
+    }
+
+    [HttpDelete("DeleteKategori")]
+    public IActionResult Delete(int kategoriId)
+    {
+        bool result = _kategoriData.Delete(kategoriId);
+
+        if (result)
+        {
+            return NoContent();
+        }
+        else
+        {
+            return StatusCode(500, "Error occur");
+        }
+    }
     }
 }

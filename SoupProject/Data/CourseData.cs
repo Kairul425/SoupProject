@@ -35,19 +35,13 @@ namespace SoupProject.Data
                             {
                                 Course course = new Course
                                 {
-                                    id_course = Convert.ToInt32(reader["id_course"]),
-                                    nama_course = reader["nama_course"].ToString(),
-                                    img_course = reader["img_course"].ToString(),
-                                    deskripsi_course = reader["deskripsi_course"].ToString(),
-                                    harga_course = Convert.ToDecimal(reader["harga_course"]),
-                                    id_kategori = Convert.ToInt32(reader["id_kategori"]),
-                                    //kategori = new Kategori
-                                    //{
-                                    //    id_kategori = Convert.ToInt32(reader["id_kategori"]),
-                                    //    nama_kategori = reader["nama_kategori"].ToString(),
-                                    //    img_kategori = reader["img_course"].ToString(),
-                                    //    deskripsi_kategori = reader["deskripsi_kategori"].ToString()
-                                    //}
+                                    courseId = Convert.ToInt32(reader["courseId"]),
+                                    namaCourse = reader["namaCourse"].ToString(),
+                                    imgCourse = reader["imgCourse"].ToString(),
+                                    deskripsiCourse = reader["deskripsiCourse"].ToString(),
+                                    hargaCourse = Convert.ToDecimal(reader["hargaCourse"]),
+                                    kategoriId = Convert.ToInt32(reader["kategoriId"]),
+                                
                                 };
 
                                 courses.Add(course);
@@ -69,11 +63,11 @@ namespace SoupProject.Data
         }
 
 
-        public Course? GetById(int id_course)
+        public Course? GetById(int courseId)
         {
             Course? courses = null;
 
-            string query = "SELECT * FROM course WHERE id_course = @Id_Course";
+            string query = "SELECT * FROM course WHERE courseId = @courseId";
 
             using (MySqlConnection connection = new MySqlConnection(ConnectionString))
             {
@@ -83,7 +77,7 @@ namespace SoupProject.Data
                     command.Parameters.Clear();
 
                     command.CommandText = query;
-                    command.Parameters.AddWithValue("@Id_Course", id_course);
+                    command.Parameters.AddWithValue("@courseId", courseId);
 
                     try
                     {
@@ -95,19 +89,13 @@ namespace SoupProject.Data
                             {
                                 courses = new Course
                                 {
-                                    id_course = Convert.ToInt32(reader["id_course"]),
-                                    nama_course = reader["nama_course"].ToString(),
-                                    img_course = reader["img_course"].ToString(),
-                                    deskripsi_course = reader["deskripsi_course"].ToString(),
-                                    harga_course = Convert.ToDecimal(reader["harga_course"]),
-                                    id_kategori = Convert.ToInt32(reader["id_kategori"]),
-                                    //kategori = new Kategori
-                                    //{
-                                    //    id_kategori = Guid.Parse(reader["id_kategori"].ToString() ?? string.Empty),
-                                    //    nama_kategori = reader["nama_kategori"].ToString(),
-                                    //    img_kategori = reader["img_course"].ToString(),
-                                    //    deskripsi_kategori = reader["deskripsi_kategori"].ToString()
-                                    //}
+                                    courseId = Convert.ToInt32(reader["courseId"]),
+                                    namaCourse = reader["namaCourse"].ToString(),
+                                    imgCourse = reader["imgCourse"].ToString(),
+                                    deskripsiCourse = reader["deskripsiCourse"].ToString(),
+                                    hargaCourse = Convert.ToDecimal(reader["hargaCourse"]),
+                                    kategoriId = Convert.ToInt32(reader["kategoriId"]),
+                                   
                                 };
                             }
                         }
@@ -124,11 +112,11 @@ namespace SoupProject.Data
             return courses;
         }
 
-        public Course? GetByNamaCourse(string nama_course)
+        public Course? GetByNamaCourse(string namaCourse)
         {
             Course? courses = null;
 
-            string query = $"SELECT * FROM course WHERE nama_course = @Nama_Course";
+            string query = $"SELECT * FROM course WHERE namaCourse = @namaCourse";
 
             using (MySqlConnection connection = new MySqlConnection(ConnectionString))
             {
@@ -138,7 +126,7 @@ namespace SoupProject.Data
                     command.Parameters.Clear();
 
                     command.CommandText = query;
-                    command.Parameters.AddWithValue("@Nama_Course", nama_course);
+                    command.Parameters.AddWithValue("@namaCourse", namaCourse);
 
                     try
                     {
@@ -150,12 +138,12 @@ namespace SoupProject.Data
                             {
                                 courses = new Course
                                 {
-                                    id_course = Convert.ToInt32(reader["id_course"]),
-                                    nama_course = reader["nama_course"].ToString(),
-                                    img_course = reader["img_course"].ToString(),
-                                    deskripsi_course = reader["deskripsi_course"].ToString(),
-                                    harga_course = Convert.ToDecimal(reader["harga_course"]),
-                                    id_kategori = Convert.ToInt32(reader["id_kategori"]),
+                                    courseId = Convert.ToInt32(reader["courseId"]),
+                                    namaCourse = reader["namaCourse"].ToString(),
+                                    imgCourse = reader["imgCourse"].ToString(),
+                                    deskripsiCourse = reader["deskripsiCourse"].ToString(),
+                                    hargaCourse = Convert.ToDecimal(reader["hargaCourse"]),
+                                    kategoriId = Convert.ToInt32(reader["kategoriId"]),
                                     //kategori = new Kategori
                                     //{
                                     //    id_kategori = Guid.Parse(reader["id_kategori"].ToString() ?? string.Empty),
@@ -183,8 +171,8 @@ namespace SoupProject.Data
         {
             bool result = false;
 
-            string query = "INSERT INTO course (id_course, nama_course, img_course, deskripsi_course, harga_course, id_kategori) " +
-                        "VALUES (@id_course, @nama_course, @img_course, @deskripsi_course, @harga_course, @id_kategori)";
+            string query = "INSERT INTO course (namaCourse, imgCourse, deskripsiCourse, hargaCourse, kategoriId) " +
+                        "VALUES (@namaCourse, @imgCourse, @deskripsiCourse, @hargaCourse, @kategoriId)";
 
 
             using (MySqlConnection connection = new MySqlConnection(ConnectionString))
@@ -200,11 +188,11 @@ namespace SoupProject.Data
                     //command.Parameters.Add(new SqlParameter("@Id", SqlDbType.UniqueIdentifier) { Value = book.Id });
                     //command.Parameters.Add(new SqlParameter("@Id", book.Id));
 
-                    command.Parameters.AddWithValue("@nama_course", course.nama_course);
-                    command.Parameters.AddWithValue("@img_course", course.img_course);
-                    command.Parameters.AddWithValue("@deskripsi_course", course.deskripsi_course);
-                    command.Parameters.AddWithValue("@harga_course", course.harga_course);
-                    command.Parameters.AddWithValue("@id_kategori", course.id_kategori);
+                    command.Parameters.AddWithValue("@namaCourse", course.namaCourse);
+                    command.Parameters.AddWithValue("@imgCourse", course.imgCourse);
+                    command.Parameters.AddWithValue("@deskripsiCourse", course.deskripsiCourse);
+                    command.Parameters.AddWithValue("@hargaCourse", course.hargaCourse);
+                    command.Parameters.AddWithValue("@kategoriId", course.kategoriId);
 
                     try
                     {
@@ -224,11 +212,12 @@ namespace SoupProject.Data
             return result;
         }
 
-        public bool Update(int id_course, Course course)
+        public bool Update(int courseId, Course course)
         {
             bool result = false;
 
-            string query = "UPDATE course SET nama_course = @nama_course, img_course = @img_course, deskripsi_course = @deskripsi_course, harga_course = @harga_course, id_kategori = @id_kategori WHERE id_course = @id_course";
+            string query = "UPDATE course SET namaCourse = @namaCourse, imgCourse = @imgCourse, deskripsiCourse = @deskripsiCourse, " +
+                "hargaCourse = @hargaCourse, kategoriId = @kategoriId WHERE courseId = @courseId";
 
             using (MySqlConnection connection = new MySqlConnection(ConnectionString))
             {
@@ -239,12 +228,12 @@ namespace SoupProject.Data
 
                     command.CommandText = query;
 
-                    command.Parameters.AddWithValue("@id_course", id_course);
-                    command.Parameters.AddWithValue("@nama_course", course.nama_course);
-                    command.Parameters.AddWithValue("@img_course", course.img_course);
-                    command.Parameters.AddWithValue("@deskripsi_course", course.deskripsi_course);
-                    command.Parameters.AddWithValue("@harga_course", course.harga_course);
-                    command.Parameters.AddWithValue("@id_kategori", course.id_kategori);
+                    command.Parameters.AddWithValue("@courseId", courseId);
+                    command.Parameters.AddWithValue("@namaCourse", course.namaCourse);
+                    command.Parameters.AddWithValue("@imgCourse", course.imgCourse);
+                    command.Parameters.AddWithValue("@deskripsiCourse", course.deskripsiCourse);
+                    command.Parameters.AddWithValue("@hargaCourse", course.hargaCourse);
+                    command.Parameters.AddWithValue("@kategoriId", course.kategoriId);
 
                     try
                     {
@@ -263,11 +252,11 @@ namespace SoupProject.Data
             return result;
         }
 
-        public bool Delete(int id_course)
+        public bool Delete(int courseId)
         {
             bool result = false;
 
-            string query = $"DELETE FROM course WHERE id_course = @id_course";
+            string query = $"DELETE FROM course WHERE courseId = @courseId";
 
             using (MySqlConnection connection = new MySqlConnection(ConnectionString))
             {
@@ -277,7 +266,7 @@ namespace SoupProject.Data
                     command.Parameters.Clear();
 
                     command.CommandText = query;
-                    command.Parameters.AddWithValue("@id_course", id_course);
+                    command.Parameters.AddWithValue("@courseId", courseId);
 
                     try
                     {

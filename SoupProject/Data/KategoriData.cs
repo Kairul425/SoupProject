@@ -36,10 +36,10 @@ namespace SoupProject.Data
                             {
                                 kategories.Add(new Kategori
                                 {
-                                    id_kategori = Convert.ToInt32(reader["id_kategori"]),
-                                    nama_kategori = reader["nama_kategori"].ToString(),
-                                    img_kategori = reader["img_kategori"].ToString(),
-                                    deskripsi_kategori = reader["deskripsi_kategori"].ToString()
+                                    kategoriId = Convert.ToInt32(reader["kategoriId"]),
+                                    namaKategori = reader["namaKategori"].ToString(),
+                                    imgKategori = reader["imgKategori"].ToString(),
+                                    deskripsiKategori = reader["deskripsiKategori"].ToString()
                                 });
                             }
                         }
@@ -59,11 +59,11 @@ namespace SoupProject.Data
         }
 
 
-        public Kategori? GetById(int id_kategori)
+        public Kategori? GetById(int kategoriId)
         {
             Kategori? kategories = null;
 
-            string query = "SELECT * FROM kategori WHERE id_kategori = @id_kategori";
+            string query = "SELECT * FROM kategori WHERE kategoriId = @kategoriId";
 
             using (MySqlConnection connection = new MySqlConnection(ConnectionString))
             {
@@ -73,7 +73,7 @@ namespace SoupProject.Data
                     command.Parameters.Clear();
 
                     command.CommandText = query;
-                    command.Parameters.AddWithValue("@id_kategori", id_kategori);
+                    command.Parameters.AddWithValue("@kategoriId", kategoriId);
 
                     try
                     {
@@ -85,10 +85,10 @@ namespace SoupProject.Data
                             {
                                 kategories = new Kategori
                                 {
-                                    id_kategori = Convert.ToInt32(reader["id_kategori"]),
-                                    nama_kategori = reader["nama_course"].ToString(),
-                                    img_kategori = reader["img_course"].ToString(),
-                                    deskripsi_kategori = reader["deskripsi_course"].ToString()
+                                    kategoriId = Convert.ToInt32(reader["kategoriId"]),
+                                    namaKategori = reader["namaKategori"].ToString(),
+                                    imgKategori = reader["imgKategori"].ToString(),
+                                    deskripsiKategori = reader["deskripsiKategori"].ToString()
                                 };
                             }
                         }
@@ -105,11 +105,11 @@ namespace SoupProject.Data
             return kategories;
         }
 
-        public Kategori? GetByNamaCourse(string nama_kategori)
+        public Kategori? GetByNamaCourse(string namaKategori)
         {
             Kategori? kategories = null;
 
-            string query = $"SELECT * FROM kategori WHERE nama_kategori = @nama_kategori";
+            string query = $"SELECT * FROM kategori WHERE namaKategori = @namaKategori";
 
             using (MySqlConnection connection = new MySqlConnection(ConnectionString))
             {
@@ -119,7 +119,7 @@ namespace SoupProject.Data
                     command.Parameters.Clear();
 
                     command.CommandText = query;
-                    command.Parameters.AddWithValue("@nama_kategori", nama_kategori);
+                    command.Parameters.AddWithValue("@namaKategori", namaKategori);
 
                     try
                     {
@@ -131,10 +131,10 @@ namespace SoupProject.Data
                             {
                                 kategories = new Kategori
                                 {
-                                    id_kategori = Convert.ToInt32(reader["id_kategori"]),
-                                    nama_kategori = reader["nama_course"].ToString(),
-                                    img_kategori = reader["img_course"].ToString(),
-                                    deskripsi_kategori = reader["deskripsi_course"].ToString()
+                                    kategoriId = Convert.ToInt32(reader["kategoriId"]),
+                                    namaKategori = reader["namaKategori"].ToString(),
+                                    imgKategori = reader["imgKategori"].ToString(),
+                                    deskripsiKategori = reader["deskripsiKategori"].ToString()
                                 };
                             }
                         }
@@ -155,9 +155,8 @@ namespace SoupProject.Data
         {
             bool result = false;
 
-            string query = "INSERT INTO kategori (id_kategori, nama_kategori, img_kategori, deskripsi_kategori) " +
-                        "VALUES (@id_kategori, @nama_kategori, @img_kategori, @deskripsi_kategori)";
-
+            string query = "INSERT INTO kategori (namaKategori, imgKategori, deskripsiKategori) " +
+                        "VALUES (@namaKategori, @imgKategori, @deskripsiKategori)";
 
             using (MySqlConnection connection = new MySqlConnection(ConnectionString))
             {
@@ -172,9 +171,9 @@ namespace SoupProject.Data
                     //command.Parameters.Add(new SqlParameter("@Id", SqlDbType.UniqueIdentifier) { Value = book.Id });
                     //command.Parameters.Add(new SqlParameter("@Id", book.Id));
 
-                    command.Parameters.AddWithValue("@nama_kategori", kategori.nama_kategori);
-                    command.Parameters.AddWithValue("@img_kategori", kategori.img_kategori);
-                    command.Parameters.AddWithValue("@deskripsi_kategori", kategori.deskripsi_kategori);
+                    command.Parameters.AddWithValue("@namaKategori", kategori.namaKategori);
+                    command.Parameters.AddWithValue("@imgKategori", kategori.imgKategori);
+                    command.Parameters.AddWithValue("@deskripsiKategori", kategori.deskripsiKategori);
 
                     try
                     {
@@ -194,11 +193,11 @@ namespace SoupProject.Data
             return result;
         }
 
-        public bool Update(int id_kategori, Kategori kategori)
+        public bool Update(int kategoriId, Kategori kategori)
         {
             bool result = false;
 
-            string query = "UPDATE kategori SET nama_kategori = @nama_kategori, img_kategori = @img_kategori, deskripsi_kategori = @deskripsi_kategori WHERE id_kategori = @id_kategori";
+            string query = "UPDATE kategori SET namaKategori = @namaKategori, imgKategori = @imgKategori, deskripsiKategori = @deskripsiKategori WHERE kategoriId = @kategoriId";
 
             using (MySqlConnection connection = new MySqlConnection(ConnectionString))
             {
@@ -209,10 +208,10 @@ namespace SoupProject.Data
 
                     command.CommandText = query;
 
-                    command.Parameters.AddWithValue("@id_kategori", id_kategori);
-                    command.Parameters.AddWithValue("@nama_kategori", kategori.nama_kategori);
-                    command.Parameters.AddWithValue("@img_kategori", kategori.img_kategori);
-                    command.Parameters.AddWithValue("@deskripsi_kategori", kategori.deskripsi_kategori);
+                    command.Parameters.AddWithValue("@kategoriId", kategoriId);
+                    command.Parameters.AddWithValue("@namaKategori", kategori.namaKategori);
+                    command.Parameters.AddWithValue("@imgKategori", kategori.imgKategori);
+                    command.Parameters.AddWithValue("@deskripsiKategori", kategori.deskripsiKategori);
 
                     try
                     {
@@ -231,11 +230,11 @@ namespace SoupProject.Data
             return result;
         }
 
-        public bool Delete(int id_kategori)
+        public bool Delete(int kategoriId)
         {
             bool result = false;
 
-            string query = $"DELETE FROM kategori WHERE id_kategori = @id_kategori";
+            string query = $"DELETE FROM kategori WHERE kategoriId = @kategoriId";
 
             using (MySqlConnection connection = new MySqlConnection(ConnectionString))
             {
@@ -245,7 +244,7 @@ namespace SoupProject.Data
                     command.Parameters.Clear();
 
                     command.CommandText = query;
-                    command.Parameters.AddWithValue("@id_kategori", id_kategori);
+                    command.Parameters.AddWithValue("@kategoriId", kategoriId);
 
                     try
                     {

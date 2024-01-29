@@ -1,4 +1,5 @@
-﻿using Microsoft.AspNetCore.Mvc;
+﻿using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Mvc;
 using SoupProject.Data;
 using SoupProject.DTOs.Course;
 using SoupProject.Models;
@@ -8,6 +9,7 @@ namespace SoupProject.Controllers
     
     [Route("api/[controller]")]
     [ApiController]
+    //[Authorize (Roles = "admin")]
     public class CourseController : ControllerBase
     {
         private readonly CourseData _courseData;
@@ -31,9 +33,9 @@ namespace SoupProject.Controllers
         }
 
         [HttpGet("GetCourseById")]
-        public IActionResult Get(int id_course)
+        public IActionResult Get(int courseId)
         {
-            Course? course = _courseData.GetById(id_course);
+            Course? course = _courseData.GetById(courseId);
 
             if (course == null)
             {
@@ -44,9 +46,9 @@ namespace SoupProject.Controllers
         }
 
         [HttpGet("GetByNamaCourse")]
-        public IActionResult GetByNamaCourse(string nama_course)
+        public IActionResult GetByNamaCourse(string namaCourse)
         {
-            Course? course = _courseData.GetByNamaCourse(nama_course);
+            Course? course = _courseData.GetByNamaCourse(namaCourse);
 
             if (course == null)
             {
@@ -65,18 +67,18 @@ namespace SoupProject.Controllers
             Course course = new Course
             {
                 //id_course = Guid.NewGuid(),
-                nama_course = courseDTO.nama_course,
-                img_course = courseDTO.img_course,
-                deskripsi_course = courseDTO.deskripsi_course,
-                harga_course = courseDTO.harga_course,
-                id_kategori = courseDTO.nama_kategori
+                namaCourse = courseDTO.namaCourse,
+                imgCourse = courseDTO.imgCourse,
+                deskripsiCourse = courseDTO.deskripsiCourse,
+                hargaCourse = courseDTO.hargaCourse,
+                kategoriId = courseDTO.kategoriId
             };
 
             bool result = _courseData.Insert(course);
 
             if (result)
             {
-                return StatusCode(201, course.id_course);
+                return StatusCode(201, "Success");
             }
             else
             {
@@ -85,22 +87,22 @@ namespace SoupProject.Controllers
         }
 
         [HttpPut("PutCourse")]
-        public IActionResult Put(int id_course, [FromBody] CourseDTO courseDTO)
+        public IActionResult Put(int courseId, [FromBody] CourseDTO courseDTO)
         {
             if (courseDTO == null)
                 return BadRequest("Data should be inputed");
 
             Course course = new Course
             {
-                id_course = id_course,
-                nama_course = courseDTO.nama_course,
-                img_course = courseDTO.img_course,
-                deskripsi_course = courseDTO.deskripsi_course,
-                harga_course = courseDTO.harga_course,
-                id_kategori = courseDTO.nama_kategori
+                courseId = courseId,
+                namaCourse = courseDTO.namaCourse,
+                imgCourse = courseDTO.imgCourse,
+                deskripsiCourse = courseDTO.deskripsiCourse,
+                hargaCourse = courseDTO.hargaCourse,
+                kategoriId = courseDTO.kategoriId
             };
 
-            bool result = _courseData.Update(id_course, course);
+            bool result = _courseData.Update(courseId, course);
 
             if (result)
             {
@@ -113,9 +115,9 @@ namespace SoupProject.Controllers
         }
 
         [HttpDelete("DeleteCourse")]
-        public IActionResult Delete(int id_course)
+        public IActionResult Delete(int courseId)
         {
-            bool result = _courseData.Delete(id_course);
+            bool result = _courseData.Delete(courseId);
 
             if (result)
             {
