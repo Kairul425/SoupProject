@@ -31,8 +31,8 @@ namespace SoupProject.Controllers
         {
             try
             {
-                List<User> users = _userData.GetAll();
-                return StatusCode(200, users);
+                List<User> user = _userData.GetAll();
+                return StatusCode(200, user);
             }
             catch (Exception ex)
             {
@@ -79,10 +79,10 @@ namespace SoupProject.Controllers
             if (credential is null)
                 return BadRequest("Invalid client request");
 
-            if (string.IsNullOrEmpty(credential.username) || string.IsNullOrEmpty(credential.password))
+            if (string.IsNullOrEmpty(credential.email) || string.IsNullOrEmpty(credential.password))
                 return BadRequest("Invalid client request");
 
-            User? user = _userData.CheckUserAuth(credential.username);
+            User? user = _userData.CheckUserAuth(credential.email);
 
             if (user == null)
                 return Unauthorized("You do not authorized");
@@ -127,16 +127,16 @@ namespace SoupProject.Controllers
 
                 string token = tokenHandler.WriteToken(securityToken);
 
-                return Ok(new LoginResponseDTO { Token = token });
+                return Ok(new LoginResponseDTO { userId = user.userId, Token = token});
             }
         }
 
         [HttpGet("ActivateUser")]
-        public IActionResult ActivateUser(Guid userId, string username)
+        public IActionResult ActivateUser(Guid userId, string email)
         {
             try
             {
-                User? user = _userData.CheckUserAuth(username);
+                User? user = _userData.CheckUserAuth(email);
 
                 if (user == null)
                     return BadRequest("Activation Failed");
@@ -253,7 +253,7 @@ namespace SoupProject.Controllers
             var param = new Dictionary<string, string?>
                     {
                         {"userId", user.userId.ToString() },
-                        {"username", user.username }
+                        {"email", user.email }
                     };
 
             string callbackUrl = QueryHelpers.AddQueryString("https://localhost:7089/api/User/ActivateUser", param);

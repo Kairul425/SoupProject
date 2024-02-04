@@ -203,7 +203,7 @@ namespace SoupProject.Data
         }
         #endregion
 
-        public User? CheckUserAuth(string username)
+        public User? CheckUserAuth(string email)
         {
             User? user = null;
 
@@ -212,11 +212,11 @@ namespace SoupProject.Data
                 using (MySqlCommand command = new MySqlCommand())
                 {
                     command.Connection = connection;
-                    command.CommandText = "SELECT * From user WHERE username = @username";
+                    command.CommandText = "SELECT * From user WHERE email = @email";
 
                     command.Parameters.Clear();
 
-                    command.Parameters.AddWithValue("@username", username);
+                    command.Parameters.AddWithValue("@email", email);
 
                     connection.Open();
 

@@ -43,10 +43,10 @@ builder.Services.AddSwaggerGen(option =>
 });
 
 builder.Services.AddScoped<CourseData>();
-builder.Services.AddScoped<KategoriData>();
+builder.Services.AddScoped<CategoryData>();
 builder.Services.AddScoped<UserData>();
-builder.Services.AddScoped<TransaksiData>();
-builder.Services.AddScoped<CartData>();
+builder.Services.AddScoped<CheckoutData>();
+builder.Services.AddScoped<InvoiceData>();
 
 builder.Services.AddTransient<EmailService>();
 

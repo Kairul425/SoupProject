@@ -63,27 +63,34 @@ namespace SoupProject.Controllers
         {
             if (courseDTO == null)
                 return BadRequest("Data should be inputed");
-
-            Course course = new Course
+            try
             {
-                //id_course = Guid.NewGuid(),
-                namaCourse = courseDTO.namaCourse,
-                imgCourse = courseDTO.imgCourse,
-                deskripsiCourse = courseDTO.deskripsiCourse,
-                hargaCourse = courseDTO.hargaCourse,
-                kategoriId = courseDTO.kategoriId
-            };
+                Course course = new Course
+                {
+                    //id_course = Guid.NewGuid(),
+                    namaCourse = courseDTO.namaCourse,
+                    imgCourse = courseDTO.imgCourse,
+                    deskripsiCourse = courseDTO.deskripsiCourse,
+                    hargaCourse = courseDTO.hargaCourse,
+                    kategoriId = courseDTO.kategoriId
+                };
 
-            bool result = _courseData.Insert(course);
+                bool result = _courseData.Insert(course);
 
-            if (result)
-            {
-                return StatusCode(201, "Success");
+                if (result)
+                {
+                    return StatusCode(201, "Success");
+                }
+                else
+                {
+                    return StatusCode(500, "Error occur");
+                }
             }
-            else
-            {
-                return StatusCode(500, "Error occur");
+            catch (Exception e) {
+                return StatusCode(500, e.Message);
             }
+
+           
         }
 
         [HttpPut("PutCourse")]

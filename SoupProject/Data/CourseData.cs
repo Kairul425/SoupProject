@@ -1,4 +1,4 @@
-﻿using SoupProject.Models;
+﻿    using SoupProject.Models;
 using MySql.Data.MySqlClient;
 using System.Text;
 
@@ -19,7 +19,8 @@ namespace SoupProject.Data
         {
             List<Course> courses = new List<Course>();
 
-            string query = "SELECT * FROM course";
+            string query = "SELECT c.*, cc.categoryName FROM course c " +
+                "JOIN category cc ON c.kategoriId = cc.categoryId";
 
             using (MySqlConnection connection = new MySqlConnection(ConnectionString))
             {
@@ -41,7 +42,7 @@ namespace SoupProject.Data
                                     deskripsiCourse = reader["deskripsiCourse"].ToString(),
                                     hargaCourse = Convert.ToDecimal(reader["hargaCourse"]),
                                     kategoriId = Convert.ToInt32(reader["kategoriId"]),
-                                
+                                    categoryName = reader["categoryName"].ToString()
                                 };
 
                                 courses.Add(course);
@@ -95,7 +96,6 @@ namespace SoupProject.Data
                                     deskripsiCourse = reader["deskripsiCourse"].ToString(),
                                     hargaCourse = Convert.ToDecimal(reader["hargaCourse"]),
                                     kategoriId = Convert.ToInt32(reader["kategoriId"]),
-                                   
                                 };
                             }
                         }
@@ -144,13 +144,6 @@ namespace SoupProject.Data
                                     deskripsiCourse = reader["deskripsiCourse"].ToString(),
                                     hargaCourse = Convert.ToDecimal(reader["hargaCourse"]),
                                     kategoriId = Convert.ToInt32(reader["kategoriId"]),
-                                    //kategori = new Kategori
-                                    //{
-                                    //    id_kategori = Guid.Parse(reader["id_kategori"].ToString() ?? string.Empty),
-                                    //    nama_kategori = reader["nama_kategori"].ToString(),
-                                    //    img_kategori = reader["img_course"].ToString(),
-                                    //    deskripsi_kategori = reader["deskripsi_kategori"].ToString()
-                                    //}
                                 };
                             }
                         }
@@ -200,9 +193,9 @@ namespace SoupProject.Data
 
                         result = command.ExecuteNonQuery() > 0 ? true : false;
                     }
-                    catch
+                    catch (Exception)
                     {
-
+                        throw;
                     }
                     finally
                     { connection.Close(); }

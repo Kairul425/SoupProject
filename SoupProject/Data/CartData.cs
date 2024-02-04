@@ -1,184 +1,184 @@
-﻿using MySql.Data.MySqlClient;
-using SoupProject.Models;
+﻿//using mysql.data.mysqlclient;
+//using soupproject.models;
 
-namespace SoupProject.Data
-{
-    public class CartData
-    {
-        private readonly IConfiguration _configuration;
-        private readonly string ConnectionString;
-        public CartData(IConfiguration configuration)
-        {
-            _configuration = configuration;
-            ConnectionString = _configuration.GetConnectionString("DefaultConnection");
-        }
-
-
-        public List<Cart> GetAll()
-        {
-            List<Cart> carts = new List<Cart>();
-
-            string query = "SELECT * FROM cart";
-
-            using (MySqlConnection connection = new MySqlConnection(ConnectionString))
-            {
-                using (MySqlCommand command = new MySqlCommand(query, connection))
-                {
-                    try
-                    {
-                        connection.Open();
-
-                        using (MySqlDataReader reader = command.ExecuteReader())
-                        {
-                            while (reader.Read())
-                            {
-                                Cart cart = new Cart
-                                {
-                                    cartId = Convert.ToInt32(reader["cartId"]),
-                                    courseId = Convert.ToInt32(reader["courseId"]),
-                                    userId = Guid.Parse(reader["userId"].ToString() ?? string.Empty),
-                                    isDeleted = Convert.ToBoolean(reader["isDeleted"]),
-                                    hargaPerCourse = Convert.ToDecimal(reader["hargaPerCourse"])
-                            };
-
-                                carts.Add(cart);
-                            }
-                        }
-                    }
-                    catch (Exception)
-                    {
-                        throw;
-                    }
-                    finally
-                    {
-                        connection.Close();
-                    }
-                }
-            }
-
-            return carts;
-        }
+//namespace soupproject.data
+//{
+//    public class cartdata
+//    {
+//        private readonly iconfiguration _configuration;
+//        private readonly string connectionstring;
+//        public cartdata(iconfiguration configuration)
+//        {
+//            _configuration = configuration;
+//            connectionstring = _configuration.getconnectionstring("defaultconnection");
+//        }
 
 
-        public Cart? GetById(int cartId)
-        {
-            Cart? cart = null;
+//        public list<order> getall()
+//        {
+//            list<order> carts = new list<order>();
 
-            string query = "SELECT * FROM cart WHERE cartId = @cartId";
+//            string query = "select * from cart";
 
-            using (MySqlConnection connection = new MySqlConnection(ConnectionString))
-            {
-                using (MySqlCommand command = new MySqlCommand(query, connection))
-                {
-                    command.Connection = connection;
-                    command.Parameters.Clear();
+//            using (mysqlconnection connection = new mysqlconnection(connectionstring))
+//            {
+//                using (mysqlcommand command = new mysqlcommand(query, connection))
+//                {
+//                    try
+//                    {
+//                        connection.open();
 
-                    command.CommandText = query;
-                    command.Parameters.AddWithValue("@cartId", cartId);
+//                        using (mysqldatareader reader = command.executereader())
+//                        {
+//                            while (reader.read())
+//                            {
+//                                order cart = new order
+//                                {
+//                                    cartid = convert.toint32(reader["cartid"]),
+//                                    courseid = convert.toint32(reader["courseid"]),
+//                                    userid = guid.parse(reader["userid"].tostring()),
+//                                    isdeleted = convert.toboolean(reader["isdeleted"]),
+//                                    hargapercourse = convert.todecimal(reader["hargapercourse"])
+//                                };
 
-                    try
-                    {
-                        connection.Open();
+//                                carts.add(cart);
+//                            }
+//                        }
+//                    }
+//                    catch (exception)
+//                    {
+//                        throw;
+//                    }
+//                    finally
+//                    {
+//                        connection.close();
+//                    }
+//                }
+//            }
 
-                        using (MySqlDataReader reader = command.ExecuteReader())
-                        {
-                            while (reader.Read())
-                            {
-                                cart = new Cart
-                                {
-                                    cartId = Convert.ToInt32(reader["cartId"]),
-                                    courseId = Convert.ToInt32(reader["courseId"]),
-                                    userId = Guid.Parse(reader["userId"].ToString() ?? string.Empty),
-                                    isDeleted = Convert.ToBoolean(reader["isDeleted"]),
-                                    hargaPerCourse = Convert.ToDecimal(reader["hargaPerCourse"])
-                                };
-                            }
-                        }
-
-                    }
-                    catch
-                    {
-
-                    }
-                    finally { connection.Close(); }
-                }
-            }
-
-            return cart;
-        }
-
-        public bool Insert(Cart cart)
-        {
-            bool result = false;
-
-            string query = "INSERT INTO cart (courseId, userId, isDeleted, hargaPerCourse) " +
-                        "VALUES (@courseId, @userId, @isDeleted, @hargaPerCourse)";
+//            return carts;
+//        }
 
 
-            using (MySqlConnection connection = new MySqlConnection(ConnectionString))
-            {
-                using (MySqlCommand command = new MySqlCommand())
-                {
-                    command.Connection = connection;
-                    command.Parameters.Clear();
+//        public order? getbyid(int cartid)
+//        {
+//            order? cart = null;
 
-                    command.CommandText = query;
+//            string query = "select * from cart where cartid = @cartid";
 
-                    //command.Parameters.AddWithValue("@id_course", course.id_course);
-                    //command.Parameters.Add(new SqlParameter("@Id", SqlDbType.UniqueIdentifier) { Value = book.Id });
-                    //command.Parameters.Add(new SqlParameter("@Id", book.Id));
+//            using (mysqlconnection connection = new mysqlconnection(connectionstring))
+//            {
+//                using (mysqlcommand command = new mysqlcommand(query, connection))
+//                {
+//                    command.connection = connection;
+//                    command.parameters.clear();
 
-                    //command.Parameters.AddWithValue("@cartId", cart.cartId);
-                    command.Parameters.AddWithValue("@courseId", cart.courseId);
-                    command.Parameters.AddWithValue("@userId", cart.userId);
-                    command.Parameters.AddWithValue("@isDeleted", cart.isDeleted);
-                    command.Parameters.AddWithValue("@hargaPerCourse", cart.hargaPerCourse);
+//                    command.commandtext = query;
+//                    command.parameters.addwithvalue("@cartid", cartid);
 
-                    try
-                    {
-                        connection.Open();
+//                    try
+//                    {
+//                        connection.open();
 
-                        result = command.ExecuteNonQuery() > 0 ? true : false;
-                    }
-                    catch
-                    {
+//                        using (mysqldatareader reader = command.executereader())
+//                        {
+//                            while (reader.read())
+//                            {
+//                                cart = new order
+//                                {
+//                                    cartid = convert.toint32(reader["cartid"]),
+//                                    courseid = convert.toint32(reader["courseid"]),
+//                                    userid = guid.parse(reader["userid"].tostring()),
+//                                    isdeleted = convert.toboolean(reader["isdeleted"]),
+//                                    hargapercourse = convert.todecimal(reader["hargapercourse"])
+//                                };
+//                            }
+//                        }
 
-                    }
-                    finally
-                    { connection.Close(); }
-                }
-            }
+//                    }
+//                    catch
+//                    {
 
-            return result;
-        }
-        public bool Delete(int cartId)
-        {
-            bool result = false;
+//                    }
+//                    finally { connection.close(); }
+//                }
+//            }
 
-            string query = $"DELETE FROM cart WHERE cartId = @cartId";
+//            return cart;
+//        }
 
-            using (MySqlConnection connection = new MySqlConnection(ConnectionString))
-            {
-                using (MySqlCommand command = new MySqlCommand())
-                {
-                    command.Connection = connection;
-                    command.Parameters.Clear();
+//        public bool insert(order cart)
+//        {
+//            bool result = false;
 
-                    command.CommandText = query;
-                    command.Parameters.AddWithValue("@cartId", cartId);
+//            string query = "insert into cart (courseid, userid, isdeleted, hargapercourse) " +
+//                        "values (@courseid, @userid, @isdeleted, @hargapercourse)";
 
-                    try
-                    {
-                        connection.Open();
 
-                        result = command.ExecuteNonQuery() > 0 ? true : false;
-                    }
-                    catch { }
-                    finally { connection.Close(); }
-                }
-            }
+//            using (mysqlconnection connection = new mysqlconnection(connectionstring))
+//            {
+//                using (mysqlcommand command = new mysqlcommand())
+//                {
+//                    command.connection = connection;
+//                    command.parameters.clear();
 
-            return result;
-        }
-    }
-}
+//                    command.commandtext = query;
+
+//                    command.parameters.addwithvalue("@id_course", course.id_course);
+//                    command.parameters.add(new sqlparameter("@id", sqldbtype.uniqueidentifier) { value = book.id });
+//                    command.parameters.add(new sqlparameter("@id", book.id));
+
+//                    command.parameters.addwithvalue("@cartid", cart.cartid);
+//                    command.parameters.addwithvalue("@courseid", cart.courseid);
+//                    command.parameters.addwithvalue("@userid", cart.userid);
+//                    command.parameters.addwithvalue("@isdeleted", cart.isdeleted);
+//                    command.parameters.addwithvalue("@hargapercourse", cart.hargapercourse);
+
+//                    try
+//                    {
+//                        connection.open();
+
+//                        result = command.executenonquery() > 0 ? true : false;
+//                    }
+//                    catch
+//                    {
+
+//                    }
+//                    finally
+//                    { connection.close(); }
+//                }
+//            }
+
+//            return result;
+//        }
+//        public bool delete(int cartid)
+//        {
+//            bool result = false;
+
+//            string query = $"delete from cart where cartid = @cartid";
+
+//            using (mysqlconnection connection = new mysqlconnection(connectionstring))
+//            {
+//                using (mysqlcommand command = new mysqlcommand())
+//                {
+//                    command.connection = connection;
+//                    command.parameters.clear();
+
+//                    command.commandtext = query;
+//                    command.parameters.addwithvalue("@cartid", cartid);
+
+//                    try
+//                    {
+//                        connection.open();
+
+//                        result = command.executenonquery() > 0 ? true : false;
+//                    }
+//                    catch { }
+//                    finally { connection.close(); }
+//                }
+//            }
+
+//            return result;
+//        }
+//    }
+//}

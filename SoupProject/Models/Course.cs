@@ -8,6 +8,6 @@
         public string? deskripsiCourse { get; set; }
         public decimal hargaCourse { get; set; }
         public int kategoriId { get; set; }
-        //public Kategori kategori { get; set; }
+        public string categoryName { get; set; } = string.Empty;
     }
 }
