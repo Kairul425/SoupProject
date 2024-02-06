@@ -7,6 +7,8 @@ import {
   Typography,
 } from "@mui/material";
 
+import Footer from "../components/Footer";
+
 import soto from "../assets/soto.png";
 
 const MyClass = () => {
@@ -16,7 +18,7 @@ const MyClass = () => {
         maxWidth="lg"
         sx={{
           marginTop: "90px",
-          marginBottom: "200px",
+          marginBottom: "400px",
         }}
       >
         <List>
@@ -61,6 +63,8 @@ const MyClass = () => {
           </ListItem>
         </List>
       </Container>
+
+      <Footer />
     </div>
   );
 };

@@ -1,6 +1,5 @@
 import { Box, Container, Typography } from "@mui/material";
 
-import Navbar from "../components/Navbar";
 import Footer from "../components/Footer";
 import TableDetail from "../components/TableDetail";
 
@@ -70,6 +69,7 @@ const DetailInvoice = () => {
         </Box>
         <TableDetail />
       </Container>
+      <Footer />
     </>
   );
 };

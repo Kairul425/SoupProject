@@ -45,13 +45,13 @@ const PaymentMethod = ({ onClose, open }) => {
             </ListItemButton>
           </ListItem>
         ))}
+        <ButtonCombo
+          first="Cancel"
+          last="Pay Now"
+          firstLink="/checkout"
+          lastLink="/purchaseConfirmation"
+        />
       </List>
-      <ButtonCombo
-            first="Cancel"
-            last="Pay Now"
-            firstLink="/checkout"
-            lastLink="/purchaseConfirmation"
-          />
     </Dialog>
   );
 };

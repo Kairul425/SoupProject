@@ -3,7 +3,11 @@ import Navbar from "../components/Navbar";
 import Footer from "../components/Footer";
 
 const Layout = () => {
-  const dataNoNavbar = ["/emailConfirmation", "/purchaseConfirmation"];
+  const dataNoNavbar = [
+    "/emailConfirmation",
+    "/purchaseConfirmation",
+    "/admin-dashboard",
+  ];
   const dataNoFooter = [
     "/ResetPassword",
     "/register",
@@ -13,6 +17,10 @@ const Layout = () => {
     "/login",
     "/emailConfirmation",
     "/checkout",
+    "/invoice",
+    "/detailInvoice",
+    "/myClass",
+    "/admin-dashboard",
   ];
   const { pathname } = useLocation();
   const condtionNavbar = !dataNoNavbar.find((path) => path === pathname);

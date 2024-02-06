@@ -20,10 +20,12 @@ const Product = (props) => {
   const [data, setData] = useState([]);
 
   useEffect(() => {
-    let apiUrl = "http://52.237.194.35:2024/api/Menu/GetMenuLimit";
+    let apiUrl = import.meta.env.VITE_REACT_APP_API_URL + "/Menu/GetMenuLimit";
 
     if (location.pathname.includes("/ListMenuClass")) {
-      apiUrl = `http://52.237.194.35:2024/api/Menu/GetMenuByTypeName?type_name=${type_name}`;
+      apiUrl = `${
+        import.meta.env.VITE_REACT_APP_API_URL
+      }/Menu/GetMenuByTypeName?type_name=${type_name}`;
     }
 
     axios.get(apiUrl).then((res) => setData(res.data));

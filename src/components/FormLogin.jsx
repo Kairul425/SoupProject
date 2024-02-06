@@ -1,152 +1,112 @@
-import { Box, Typography, TextField, Button, Link } from "@mui/material";
-import { createTheme, ThemeProvider } from "@mui/material/styles";
-import { useState } from "react";
-import { Link as RouterLink } from 'react-router-dom';
-
-const theme = createTheme({
-  palette: {
-    orange: {
-      main: "#FABC1D",
-    },
-  },
-  typography: {
-    fontFamily: "Montserrat, sans-serif",
-  },
-});
+import { Box, Typography, TextField, Button, Alert } from "@mui/material";
+import { Link } from "react-router-dom";
+import useLogin from "../hooks/useLogin";
 
 const FormLogin = () => {
-  const [loginData, setLoginData] = useState({
-    email: "",
-    password: "",
-  });
-
-  const handleInputChange = (event) => {
-    setLoginData({
-      ...loginData,
-      [event.target.name]: event.target.value,
-    });
-  };
-
-  const handleLogin = () => {
-    console.log(loginData);
-
-    // Add your login logic here
-    // ...
-
-    // Reset loginData
-    setLoginData({
-      email: "",
-      password: "",
-    });
-  };
-
-  const buttonStyle = {
-    width: "140px",
-    borderRadius: "8px",
-    padding: "10px",
-    color: "#5B4947",
-    fontSize: "16px",
-    textTransform: "none",
-    fontFamily: "Montserrat",
-    fontWeight: "500",
-  };
+  const { formData, loading, error, handleChange, handleLogin } = useLogin();
 
   return (
-    <ThemeProvider theme={theme}>
-      <Box sx={{ width: "616px" }}>
-        <Typography
-          variant="h3"
-          sx={{
-            fontSize: "24px",
-            fontWeight: "500",
-            color: "#5B4947",
-            marginBottom: "16px",
-          }}
-        >
-          Welcome Back!! Cheff
-        </Typography>
-        <Typography
-          variant="body2"
-          sx={{
-            fontSize: "16px",
-            fontWeight: "400",
-            color: "#4F4F4F",
-          }}
-        >
-          Please login first
-        </Typography>
-        <Box component="form" sx={{ width: "100%", marginY: "40px" }}>
-          <TextField
-            fullWidth
-            id="email"
-            label="Email"
-            name="email"
-            type="email"
-            autoComplete="email"
-            sx={{ marginBottom: "24px" }}
-            value={loginData.email}
-            onChange={handleInputChange}
-          />
-          <TextField
-            fullWidth
-            id="password"
-            label="Password"
-            name="password"
-            type="password"
-            value={loginData.password}
-            onChange={handleInputChange}
-          />
-        </Box>
-        <Typography
-          variant="h3"
-          sx={{
-            fontSize: "16px",
-            fontWeight: "400",
-            color: "#5B4947",
-            marginBottom: "16px",
-          }}
-        >
-          Forgot Password?
-          <Link href="resetPassword" underline="none">
-            {" Click Here"}
-          </Link>
-        </Typography>
-        <Box
-          sx={{
-            width: "100%",
-            display: "flex",
-            justifyContent: "flex-end",
-            marginBottom: "60px",
-          }}
-        >
-          <RouterLink to="/">
-            <Button
-              variant="contained"
-              style={buttonStyle}
-              color="orange"
-              sx={{ boxShadow: 'none' }}
-              onClick={handleLogin}
-            >
-              Login
-            </Button>
-          </RouterLink>
-        </Box>
-        <Typography
-          variant="subtitle1"
-          sx={{
-            fontSize: "16px",
-            fontWeight: "400",
-            color: "#000",
-            textAlign: "center",
-          }}
-        >
-          Don't have an account?
-          <Link href="register" underline="none">
-            {" Sign Up here"}
-          </Link>
-        </Typography>
+    <Box sx={{ width: "616px" }}>
+      <Typography
+        color="primary"
+        sx={{
+          fontSize: { xs: "19px", sm: "24px" },
+          fontWeight: "500",
+          marginBottom: { xs: "8px", sm: "16px", md: "16px" },
+          lineHeight: "26px",
+        }}
+      >
+        Welcome Back!! Cheff
+      </Typography>
+      <Typography
+        color="primary.light"
+        sx={{
+          fontSize: "16px",
+          fontWeight: "400",
+        }}
+      >
+        Please login first
+      </Typography>
+      <Box component="form" sx={{ width: "100%", marginY: "40px" }}>
+        {error && (
+          <Alert severity="error" sx={{ marginBottom: "16px" }}>
+            {error}
+          </Alert>
+        )}
+        <TextField
+          fullWidth
+          id="email"
+          label="Email"
+          name="email"
+          type="email"
+          autoComplete="email"
+          sx={{ marginBottom: "24px" }}
+          value={formData.email}
+          onChange={handleChange}
+        />
+        <TextField
+          fullWidth
+          id="password"
+          label="Password"
+          name="password"
+          type="password"
+          value={formData.password}
+          onChange={handleChange}
+        />
       </Box>
-    </ThemeProvider>
+      <Typography
+        color="primary.light"
+        sx={{
+          fontSize: "16px",
+          fontWeight: "400",
+          marginBottom: "16px",
+        }}
+      >
+        Forgot Password?
+        <Link
+          to="/resetPassword"
+          style={{ textDecoration: "none", color: "#2F80ED" }}
+        >
+          {" Click Here"}
+        </Link>
+      </Typography>
+      <Box
+        sx={{
+          width: "100%",
+          display: "flex",
+          justifyContent: "flex-end",
+          marginBottom: "60px",
+        }}
+      >
+        <Button
+          variant="contained"
+          color="secondary"
+          size="large"
+          sx={{ boxShadow: "none", width: "140px", borderRadius: "8px" }}
+          onClick={handleLogin}
+          disabled={loading}
+        >
+          {loading ? "Logging..." : "Login"}
+        </Button>
+      </Box>
+      <Typography
+        variant="subtitle1"
+        sx={{
+          fontSize: "16px",
+          fontWeight: "400",
+          color: "#000",
+          textAlign: "center",
+        }}
+      >
+        Don't have an account?
+        <Link
+          to="/register"
+          style={{ textDecoration: "none", color: "#2F80ED" }}
+        >
+          {" Sign Up here"}
+        </Link>
+      </Typography>
+    </Box>
   );
 };
 

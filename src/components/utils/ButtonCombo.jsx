@@ -13,7 +13,7 @@ const theme = createTheme({
   },
 });
 
-const ButtonNavbar = (props) => {
+const ButtonCombo = (props) => {
   const buttonStyle = {
     width: "175px",
     borderRadius: "8px",
@@ -77,4 +77,4 @@ const ButtonNavbar = (props) => {
   );
 };
 
-export default ButtonNavbar;
+export default ButtonCombo;

@@ -12,6 +12,7 @@ import MyClass from "./pages/MyClass";
 import EmailConfirmation from "./pages/EmailConfirmation";
 import PurchaseConfirmation from "./pages/PurchaseConfirmation";
 import Layout from "./components/Layout";
+import Dashboard from "./pages/Dashboard";
 
 import { Routes, Route } from "react-router-dom";
 
@@ -37,6 +38,7 @@ const App = () => {
         <Route path={"/invoice"} element={<Invoice />} />
         <Route path={"/detailInvoice"} element={<DetailInvoice />} />
         <Route path={"/myClass"} element={<MyClass />} />
+        <Route path={"/admin-dashboard"} element={<Dashboard />} />
       </Route>
     </Routes>
   );

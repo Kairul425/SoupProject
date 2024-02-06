@@ -1,6 +1,5 @@
 import { Container } from "@mui/material";
 
-import Navbar from "../components/Navbar";
 import FormRegister from "../components/FormRegister";
 
 const Register = () => {
@@ -13,6 +12,7 @@ const Register = () => {
           display: "flex",
           justifyContent: "center",
           alignItems: "center",
+          marginTop: { xs: "60px", md: "75px" },
         }}
       >
         <FormRegister />

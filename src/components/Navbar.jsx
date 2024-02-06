@@ -1,6 +1,6 @@
 import { AppBar, Box } from "@mui/material";
-import { useState } from "react";
 import { Link } from "react-router-dom";
+import { useState, useEffect } from "react"; // Import useEffect and useState
 
 import Menu from "./utils/Menu";
 import ButtonCombo from "./utils/ButtonCombo";
@@ -8,7 +8,17 @@ import ButtonCombo from "./utils/ButtonCombo";
 import Logo from "../assets/logo.png";
 
 const Navbar = () => {
-  const [isLogin, setIsLogin] = useState(true);
+  const [isLoggedIn, setIsLoggedIn] = useState(false);
+
+  useEffect(() => {
+    const storedUser = localStorage.getItem("user");
+
+    if (storedUser) {
+      setIsLoggedIn(true);
+    } else {
+      setIsLoggedIn(false);
+    }
+  }, []);
 
   return (
     <AppBar
@@ -35,7 +45,7 @@ const Navbar = () => {
               <img src={Logo} alt="logo" width="50px" />
             </Box>
           </Link>
-          {isLogin ? (
+          {isLoggedIn ? (
             <Menu />
           ) : (
             <ButtonCombo
@@ -43,7 +53,6 @@ const Navbar = () => {
               last="Register"
               firstLink="/login"
               lastLink="/register"
-              setIsLogin={setIsLogin}
             />
           )}
         </Box>
