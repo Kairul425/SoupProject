@@ -12,7 +12,7 @@ import MyClass from "./pages/MyClass";
 import EmailConfirmation from "./pages/EmailConfirmation";
 import PurchaseConfirmation from "./pages/PurchaseConfirmation";
 import Layout from "./components/Layout";
-import Dashboard from "./pages/Dashboard";
+import CourseCategory from "./components/ComponentDashboard/CourseCategory";
 
 import { Routes, Route } from "react-router-dom";
 
@@ -38,7 +38,10 @@ const App = () => {
         <Route path={"/invoice"} element={<Invoice />} />
         <Route path={"/detailInvoice"} element={<DetailInvoice />} />
         <Route path={"/myClass"} element={<MyClass />} />
-        <Route path={"/admin-dashboard"} element={<Dashboard />} />
+        <Route
+          path={"/admin-dashboard/course-category"}
+          element={<CourseCategory />}
+        />
       </Route>
     </Routes>
   );

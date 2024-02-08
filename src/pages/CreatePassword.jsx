@@ -1,6 +1,6 @@
 import { Container } from "@mui/material";
 
-import FormCreatePassword from "../components/FormCreatePassword";
+import FormCreatePassword from "../components/ComponentForm/FormCreatePassword";
 
 const CreatePassword = () => {
   return (

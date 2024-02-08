@@ -12,7 +12,6 @@ import {
   IconButton,
 } from "@mui/material";
 
-// import CommentIcon from "@mui/icons-material/Comment";
 import DeleteForeverIcon from "@mui/icons-material/DeleteForever";
 
 import spageti from "../assets/spageti.png";
@@ -122,12 +121,10 @@ const CheckoutList = () => {
                 color="default"
               />
               <Typography
-                variant="body1"
                 sx={{
                   color: "#333333",
                   fontWeight: "400",
                   fontSize: "20px",
-                  fontFamily: "Montserrat, sans-serif",
                 }}
               >
                 Pilih Semua
@@ -193,7 +190,6 @@ const CheckoutList = () => {
                           color: "#828282",
                           fontWeight: "400",
                           fontSize: { xs: "12px", sm: "14px" },
-                          fontFamily: "Montserrat, sans-serif",
                           marginY: { xs: "3px", sm: "5px" },
                         }}
                       >
@@ -205,7 +201,6 @@ const CheckoutList = () => {
                           color: "#333333",
                           fontWeight: "600",
                           fontSize: { xs: "13px", sm: "24px" },
-                          fontFamily: "Montserrat, sans-serif",
                         }}
                       >
                         {value.description}
@@ -216,7 +211,7 @@ const CheckoutList = () => {
                           color: "#4F4F4F",
                           fontWeight: "400",
                           fontSize: { xs: "12px", sm: "16px" },
-                          fontFamily: "Montserrat, sans-serif",
+
                           marginY: { xs: "4px", sm: "8px" },
                         }}
                       >
@@ -228,7 +223,6 @@ const CheckoutList = () => {
                           color: "#FABC1D",
                           fontWeight: "600",
                           fontSize: { xs: "12px", sm: "20px" },
-                          fontFamily: "Montserrat, sans-serif",
                         }}
                       >
                         {value.price}

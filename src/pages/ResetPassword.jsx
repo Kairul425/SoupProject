@@ -1,6 +1,6 @@
 import { Container } from "@mui/material";
 
-import FormResetPassword from "../components/FormResetPassword";
+import FormResetPassword from "../components/ComponentForm/FormResetPassword";
 
 const ResetPassword = () => {
   return (

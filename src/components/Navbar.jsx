@@ -1,6 +1,6 @@
 import { AppBar, Box } from "@mui/material";
 import { Link } from "react-router-dom";
-import { useState, useEffect } from "react"; // Import useEffect and useState
+import { useState, useEffect } from "react";
 
 import Menu from "./utils/Menu";
 import ButtonCombo from "./utils/ButtonCombo";

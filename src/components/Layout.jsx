@@ -20,7 +20,7 @@ const Layout = () => {
     "/invoice",
     "/detailInvoice",
     "/myClass",
-    "/admin-dashboard",
+    "/admin-dashboard/course-category",
   ];
   const { pathname } = useLocation();
   const condtionNavbar = !dataNoNavbar.find((path) => path === pathname);

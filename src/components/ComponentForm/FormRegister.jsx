@@ -1,6 +1,6 @@
 import { Box, Typography, TextField, Button, Alert } from "@mui/material";
 import { Link } from "react-router-dom";
-import useRegister from "../hooks/useRegister";
+import useRegister from "../../hooks/useRegister";
 
 const FormRegister = () => {
   const { formData, error, isLoading, handleInputChange, handleSignUp } =

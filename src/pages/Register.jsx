@@ -1,6 +1,6 @@
 import { Container } from "@mui/material";
 
-import FormRegister from "../components/FormRegister";
+import FormRegister from "../components/ComponentForm/FormRegister";
 
 const Register = () => {
   return (

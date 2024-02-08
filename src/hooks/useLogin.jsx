@@ -49,7 +49,7 @@ const useLogin = () => {
 
       // Arahkan pengguna ke halaman berdasarkan role
       if (data.role === "admin") {
-        navigate("/admin-dashboard");
+        navigate("/admin-dashboard/course-category");
       } else {
         navigate("/");
       }
