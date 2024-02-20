@@ -12,7 +12,7 @@ namespace SoupProject.Email
         private readonly string _host;
         private readonly string _username;
         private readonly string _password;
-        private readonly string _port = "sss";
+        private readonly string _port;
 
         public EmailService(IConfiguration configuration)
         {

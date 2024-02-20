@@ -108,7 +108,7 @@ namespace SoupProject.Controllers
 
                 var claims = new Claim[] {
                     new Claim(ClaimTypes.Name, user.username),
-                    new Claim(ClaimTypes.Role, user.role)
+                    //new Claim(ClaimTypes.Role, user.role)
                 };
 
                 var signingCredential = new SigningCredentials(
@@ -127,7 +127,71 @@ namespace SoupProject.Controllers
 
                 string token = tokenHandler.WriteToken(securityToken);
 
-                return Ok(new LoginResponseDTO { userId = user.userId, Token = token});
+                return Ok(new LoginResponseDTO { userId = user.userId, Token = token, role = user.role, username = user.username, email = user.email });
+            }
+        }
+
+        [HttpGet("GetUserById")]
+        public IActionResult GetUserById(Guid userId)
+        {
+            try
+            {
+                User user = _userData.GetUserById(userId);
+                if (user != null)
+                {
+                    return StatusCode(200, user);
+                }
+                else
+                {
+                    return StatusCode(404, "User not found");
+                }
+            }
+            catch (Exception ex)
+            {
+                return StatusCode(500, ex.Message);
+            }
+        }
+
+        [HttpPut("UpdateUser")]
+        public async Task<IActionResult> UpdateUser(Guid userId, [FromBody] UserUpdateDTO userUpdateDTO)
+        {
+            try
+            {
+                // Mendapatkan data pengguna yang akan diperbarui dari database
+                User existingUser = _userData.GetUserById(userId);
+
+                if (existingUser == null)
+                {
+                    return NotFound(); // Jika pengguna tidak ditemukan, kembalikan status 404
+                }
+
+                // Memperbarui properti yang dapat diubah
+                existingUser.username = userUpdateDTO.username;
+                existingUser.email = userUpdateDTO.email;
+                existingUser.role = userUpdateDTO.role;
+                existingUser.isActivated = userUpdateDTO.isActivated;
+
+                // Pastikan password tidak berubah
+                // existingUser.password = existingUser.password; // Anda mungkin tidak perlu menetapkan ulang password di sini
+
+                // Melakukan pembaruan pengguna di database
+                bool result = _userData.UpdateUserAccount(userId, existingUser);
+
+                if (result)
+                {
+                    // Menggunakan status 200 atau 204 untuk menunjukkan kesuksesan operasi update
+                    return NoContent(); // Status 204
+                }
+                else
+                {
+                    // Menggunakan status 500 untuk menunjukkan kesalahan internal server
+                    return StatusCode(500, "Failed to update user");
+                }
+            }
+            catch (Exception ex)
+            {
+                // Menggunakan ProblemDetails untuk menangani kesalahan internal server dengan lebih baik
+                return Problem(ex.Message);
             }
         }
 
@@ -196,7 +260,7 @@ namespace SoupProject.Controllers
                         {"email", email }
                     };
 
-            string callbackUrl = QueryHelpers.AddQueryString("https://localhost:7089/formResetPassword", param);
+            string callbackUrl = QueryHelpers.AddQueryString("http://localhost:5173/createPassword", param);
 
             string body = "Please reset your password by clicking <a href=\"" + callbackUrl + "\">here</a>";
 

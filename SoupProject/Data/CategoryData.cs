@@ -1,28 +1,29 @@
 ﻿using MySql.Data.MySqlClient;
 using SoupProject.Models;
-using System.Text;
-using static System.Reflection.Metadata.BlobBuilder;
 
 namespace SoupProject.Data
 {
     public class CategoryData
     {
+        private readonly string _connectionString;
         private readonly IConfiguration _configuration;
-        private readonly string ConnectionString;
+
         public CategoryData(IConfiguration configuration)
         {
             _configuration = configuration;
-            ConnectionString = _configuration.GetConnectionString("DefaultConnection");
+            _connectionString = _configuration.GetConnectionString("DefaultConnection");
         }
 
-
-        public List<Category> GetAll()
+        public List<Category> GetCategories()
         {
             List<Category> categories = new List<Category>();
 
-            string query = "SELECT * FROM category";
+            string query = "SELECT c.*, COUNT(cr.courseId) as CourseCount " +
+                           "FROM category c " +
+                           "LEFT JOIN course cr ON c.categoryId = cr.categoryId " +
+                           "GROUP BY c.categoryId";
 
-            using (MySqlConnection connection = new MySqlConnection(ConnectionString))
+            using (MySqlConnection connection = new MySqlConnection(_connectionString))
             {
                 using (MySqlCommand command = new MySqlCommand(query, connection))
                 {
@@ -30,17 +31,21 @@ namespace SoupProject.Data
                     {
                         connection.Open();
 
-                        using (MySqlDataReader reader = command.ExecuteReader())
+                        using (MySqlDataReader dataReader = command.ExecuteReader())
                         {
-                            while (reader.Read())
+                            while (dataReader.Read())
                             {
-                                categories.Add(new Category
+                                Category category = new Category
                                 {
-                                    categoryId = Convert.ToInt32(reader["categoryId"]),
-                                    categoryName = reader["categoryName"].ToString(),
-                                    categoryImg = reader["categoryImg"].ToString(),
-                                    categoryDesc = reader["categoryDesc"].ToString()
-                                });
+                                    categoryId = Convert.ToInt32(dataReader["categoryId"]),
+                                    categoryName = dataReader["categoryName"].ToString() ?? string.Empty,
+                                    categoryImg = dataReader["categoryImg"].ToString() ?? string.Empty,
+                                    categoryDesc = dataReader["categoryDesc"].ToString() ?? string.Empty,
+                                    categoryStatus = dataReader["categoryStatus"].ToString() ?? string.Empty,
+                                    courseCount = Convert.ToInt32(dataReader["CourseCount"])
+                                };
+
+                                categories.Add(category);
                             }
                         }
                     }
@@ -59,121 +64,76 @@ namespace SoupProject.Data
         }
 
 
-        public Category? GetById(int categoryId)
+        //GetByID
+        public Category? GetCategoryById(int categoryId)
         {
-            Category? categories = null;
+            Category? categoryById = null;
+            string query = "SELECT c.*, COUNT(cr.courseId) as CourseCount " +
+                           "FROM category c " +
+                           "LEFT JOIN course cr ON c.categoryId = cr.categoryId " +
+                           "WHERE c.categoryId = @categoryId " +
+                           "GROUP BY c.categoryId";
 
-            string query = "SELECT * FROM category WHERE categoryId = @categoryId";
-
-            using (MySqlConnection connection = new MySqlConnection(ConnectionString))
+            using (MySqlConnection connection = new MySqlConnection(_connectionString))
             {
                 using (MySqlCommand command = new MySqlCommand(query, connection))
                 {
-                    command.Connection = connection;
                     command.Parameters.Clear();
-
-                    command.CommandText = query;
                     command.Parameters.AddWithValue("@categoryId", categoryId);
 
                     try
                     {
                         connection.Open();
 
-                        using (MySqlDataReader reader = command.ExecuteReader())
+                        using (MySqlDataReader dataReader = command.ExecuteReader())
                         {
-                            while (reader.Read())
+                            while (dataReader.Read())
                             {
-                                categories = new Category
+                                Category category = new Category
                                 {
-                                    categoryId = Convert.ToInt32(reader["categoryId"]),
-                                    categoryName = reader["categoryName"].ToString(),
-                                    categoryImg = reader["categoryImg"].ToString(),
-                                    categoryDesc = reader["categoryDesc"].ToString()
+                                    categoryId = Convert.ToInt32(dataReader["categoryId"]),
+                                    categoryName = dataReader["categoryName"].ToString() ?? string.Empty,
+                                    categoryImg = dataReader["categoryImg"].ToString() ?? string.Empty,
+                                    categoryDesc = dataReader["categoryDesc"].ToString() ?? string.Empty,
+                                    categoryStatus = dataReader["categoryStatus"].ToString() ?? string.Empty,
+                                    courseCount = Convert.ToInt32(dataReader["CourseCount"])
                                 };
+
+                                categoryById = category;
                             }
                         }
-
                     }
-                    catch
-                    {
-
-                    }
-                    finally { connection.Close(); }
-                }
-            }
-
-            return categories;
-        }
-
-        public Category? GetByCategoryName(string categoryName)
-        {
-            Category? categories = null;
-
-            string query = $"SELECT * FROM category WHERE categoryName = @categoryName";
-
-            using (MySqlConnection connection = new MySqlConnection(ConnectionString))
-            {
-                using (MySqlCommand command = new MySqlCommand(query, connection))
-                {
-                    command.Connection = connection;
-                    command.Parameters.Clear();
-
-                    command.CommandText = query;
-                    command.Parameters.AddWithValue("@categoryName", categoryName);
-
-                    try
-                    {
-                        connection.Open();
-
-                        using (MySqlDataReader reader = command.ExecuteReader())
-                        {
-                            while (reader.Read())
-                            {
-                                categories = new Category
-                                {
-                                    categoryId = Convert.ToInt32(reader["categoryId"]),
-                                    categoryName = reader["categoryName"].ToString(),
-                                    categoryImg = reader["categoryImg"].ToString(),
-                                    categoryDesc = reader["categoryDesc"].ToString()
-                                };
-                            }
-                        }
-
-                    }
-                    catch
+                    catch (Exception)
                     {
                         throw;
                     }
-                    finally { connection.Close(); }
+                    finally
+                    {
+                        connection.Close();
+                    }
                 }
             }
 
-            return categories;
+            return categoryById;
         }
 
-        public bool Insert(Category category)
+        //Insert/Post
+        public bool InsertNewCategory(Category newCategory)
         {
             bool result = false;
 
-            string query = "INSERT INTO category (categoryName, categoryImg, categoryDesc) " +
-                        "VALUES (@categoryName, @categoryImg, @categoryDesc)";
+            string query = $"INSERT INTO category (categoryName, categoryImg, categoryDesc, categoryStatus) VALUES(@categoryName, @categoryImg, @categoryDesc, @categoryStatus)";
 
-            using (MySqlConnection connection = new MySqlConnection(ConnectionString))
+            using (MySqlConnection connection = new MySqlConnection(_connectionString))
             {
-                using (MySqlCommand command = new MySqlCommand())
+                using (MySqlCommand command = new MySqlCommand(query, connection))
                 {
-                    command.Connection = connection;
                     command.Parameters.Clear();
 
-                    command.CommandText = query;
-
-                    //command.Parameters.AddWithValue("@id_category", category.id_category);
-                    //command.Parameters.Add(new SqlParameter("@Id", SqlDbType.UniqueIdentifier) { Value = book.Id });
-                    //command.Parameters.Add(new SqlParameter("@Id", book.Id));
-
-                    command.Parameters.AddWithValue("@categoryName", category.categoryName);
-                    command.Parameters.AddWithValue("@categoryImg", category.categoryImg);
-                    command.Parameters.AddWithValue("@categoryDesc", category.categoryDesc);
+                    command.Parameters.AddWithValue("@categoryName", newCategory.categoryName);
+                    command.Parameters.AddWithValue("@categoryImg", newCategory.categoryImg);
+                    command.Parameters.AddWithValue("@categoryDesc", newCategory.categoryDesc);
+                    command.Parameters.AddWithValue("@categoryStatus", newCategory.categoryStatus);
 
                     try
                     {
@@ -181,37 +141,38 @@ namespace SoupProject.Data
 
                         result = command.ExecuteNonQuery() > 0 ? true : false;
                     }
-                    catch
+                    catch (Exception)
                     {
-
+                        throw;
                     }
                     finally
-                    { connection.Close(); }
+                    {
+                        connection.Close();
+                    }
                 }
             }
 
             return result;
         }
 
-        public bool Update(int categoryId, Category category)
+        //Update/Put
+        public bool UpdateCategory(int categoryId, Category newCategory)
         {
             bool result = false;
 
-            string query = "UPDATE category SET categoryName = @categoryName, categoryImg = @categoryImg, categoryDesc = @categoryDesc WHERE categoryId = @categoryId";
+            string query = $"UPDATE category SET categoryName = @categoryName, categoryImg = @categoryImg, categoryDesc = @categoryDesc, categoryStatus = @categoryStatus WHERE categoryId = @categoryId";
 
-            using (MySqlConnection connection = new MySqlConnection(ConnectionString))
+            using (MySqlConnection connection = new MySqlConnection(_connectionString))
             {
-                using (MySqlCommand command = new MySqlCommand())
+                using (MySqlCommand command = new MySqlCommand(query, connection))
                 {
-                    command.Connection = connection;
                     command.Parameters.Clear();
 
-                    command.CommandText = query;
-
                     command.Parameters.AddWithValue("@categoryId", categoryId);
-                    command.Parameters.AddWithValue("@categoryName", category.categoryName);
-                    command.Parameters.AddWithValue("@categoryImg", category.categoryImg);
-                    command.Parameters.AddWithValue("@categoryDesc", category.categoryDesc);
+                    command.Parameters.AddWithValue("@categoryName", newCategory.categoryName);
+                    command.Parameters.AddWithValue("@categoryImg", newCategory.categoryImg);
+                    command.Parameters.AddWithValue("@categoryDesc", newCategory.categoryDesc);
+                    command.Parameters.AddWithValue("@categoryStatus", newCategory.categoryStatus);
 
                     try
                     {
@@ -219,31 +180,33 @@ namespace SoupProject.Data
 
                         result = command.ExecuteNonQuery() > 0 ? true : false;
                     }
-                    catch
+                    catch (Exception)
                     {
-
+                        throw;
                     }
-                    finally { connection.Close(); }
+                    finally
+                    {
+                        connection.Close();
+                    }
                 }
             }
 
             return result;
         }
 
-        public bool Delete(int categoryId)
+        //Delete
+        public bool DeleteById(int categoryId)
         {
             bool result = false;
 
-            string query = $"DELETE FROM category WHERE categoryId = @categoryId";
+            string query = "DELETE FROM category WHERE categoryId = @categoryId";
 
-            using (MySqlConnection connection = new MySqlConnection(ConnectionString))
+            using (MySqlConnection connection = new MySqlConnection(_connectionString))
             {
-                using (MySqlCommand command = new MySqlCommand())
+                using (MySqlCommand command = new MySqlCommand(query, connection))
                 {
-                    command.Connection = connection;
                     command.Parameters.Clear();
 
-                    command.CommandText = query;
                     command.Parameters.AddWithValue("@categoryId", categoryId);
 
                     try
@@ -252,8 +215,14 @@ namespace SoupProject.Data
 
                         result = command.ExecuteNonQuery() > 0 ? true : false;
                     }
-                    catch { }
-                    finally { connection.Close(); }
+                    catch (Exception)
+                    {
+                        throw;
+                    }
+                    finally
+                    {
+                        connection.Close();
+                    }
                 }
             }
 

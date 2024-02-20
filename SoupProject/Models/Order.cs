@@ -8,5 +8,7 @@
         public DateTime transactionDate { get; set; }
         public string paymentMethod { get; set; }
         public bool isPaid { get; set; }
+        public int totalPrice { get; set; }
+        public string courseDate { get; set; } 
     }
 }

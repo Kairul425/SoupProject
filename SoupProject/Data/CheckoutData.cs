@@ -1,4 +1,7 @@
-﻿using MySql.Data.MySqlClient;
+﻿using MailKit.Search;
+using MySql.Data.MySqlClient;
+using SoupProject.DTOs;
+using SoupProject.DTOs.Cart;
 using SoupProject.Models;
 
 namespace SoupProject.Data
@@ -31,7 +34,7 @@ namespace SoupProject.Data
 
                     command.Parameters.AddWithValue("@courseId", cart.courseId.ToString());
                     command.Parameters.AddWithValue("@userId", cart.userId);
-                    command.Parameters.AddWithValue("@courseDate", cart.courseDate.ToString("yyyy-MM-dd HH:mm:ss"));
+                    command.Parameters.AddWithValue("@courseDate", cart.courseDate.ToString());
 
                     try
                     {
@@ -52,174 +55,343 @@ namespace SoupProject.Data
             return result;
         }
 
-        public bool AddToOrder(Order order)
+        public bool Checkout(Order order, int[] selectedCourses)
         {
-            bool result = false;
+            bool addToOrder = false;
+            bool addToOrderDetail = false;
+            bool confirmPayment = false;
+            bool totalPriceUpdated = false;
 
-            string query = $"INSERT INTO `order` (orderId, invoice, userId, paymentMethod) " +
-                $"VALUES (@orderId, @invoice, @userId, @paymentMethod)";
+            string queryOrder = "INSERT INTO `order` (orderId, invoice, userId, paymentMethod) " +
+                "VALUES (@orderId, @invoice, @userId, @paymentMethod)";
+            string queryOrderDetail = "INSERT INTO orderdetail (invoice, cartId) " +
+               "VALUES (@invoice, @cartId)";
+            string queryConfirmPayment = "UPDATE cart SET isPaid = TRUE " +
+                "WHERE userId = @userId AND cartId = @cartId";
+            string queryOrderTotalPrice = "UPDATE `order` " +
+                "SET totalPrice = (" +
+                "SELECT SUM(c.coursePrice) FROM `order` o " +
+                "JOIN orderDetail od ON o.invoice = od.invoice " +
+                "JOIN cart ca ON od.cartId = ca.cartId " +
+                "JOIN course c ON ca.courseId = c.courseId " +
+                "WHERE o.userId = @userId " +
+                "GROUP BY o.invoice " +
+                "HAVING o.invoice = @invoice" +
+                ") " +
+                "WHERE invoice = @invoice";
 
             using (MySqlConnection connection = new MySqlConnection(connectionString))
             {
                 using (MySqlCommand command = new MySqlCommand())
                 {
-                    command.Connection = connection;
-                    command.Parameters.Clear();
-                    command.CommandText = query;
-
-                    command.Parameters.AddWithValue("@orderId", order.orderId.ToString());
-                    command.Parameters.AddWithValue("@invoice", order.invoice.ToString());
-                    command.Parameters.AddWithValue("@userId", order.userId.ToString());
-                    command.Parameters.AddWithValue("@paymentMethod", order.paymentMethod.ToString());
+                    MySqlTransaction transaction = null;
 
                     try
                     {
                         connection.Open();
-                        result = command.ExecuteNonQuery() > 0 ? true : false;
+
+                        transaction = connection.BeginTransaction();
+                        command.Connection = connection;
+                        command.Transaction = transaction;
+
+                        command.Parameters.Clear();
+                        command.CommandText = queryOrder;
+                        command.Parameters.AddWithValue("@orderId", order.orderId);
+                        command.Parameters.AddWithValue("@invoice", order.invoice);
+                        command.Parameters.AddWithValue("@userId", order.userId);
+                        command.Parameters.AddWithValue("@paymentMethod", order.paymentMethod);
+
+                        addToOrder = command.ExecuteNonQuery() > 0;
+
+                        foreach (int selectedCourse in selectedCourses)
+                        {
+                            command.Parameters.Clear();
+                            command.CommandText = queryOrderDetail;
+                            command.Parameters.AddWithValue("@invoice", order.invoice);
+                            command.Parameters.AddWithValue("@cartId", selectedCourse);
+                            addToOrderDetail = command.ExecuteNonQuery() > 0;
+
+                            command.Parameters.Clear();
+                            command.CommandText = queryConfirmPayment;
+                            command.Parameters.AddWithValue("@userId", order.userId);
+                            command.Parameters.AddWithValue("@cartId", selectedCourse);
+                            confirmPayment = command.ExecuteNonQuery() > 0;
+                        }
+
+                        command.Parameters.Clear();
+                        command.CommandText = queryOrderTotalPrice;
+                        command.Parameters.AddWithValue("@userId", order.userId);
+                        command.Parameters.AddWithValue("@invoice", order.invoice);
+                        totalPriceUpdated = command.ExecuteNonQuery() > 0;
+
+                        transaction.Commit();
                     }
                     catch (Exception)
                     {
+                        if (transaction != null) transaction.Rollback();
                         throw;
                     }
                     finally
                     {
+                        if (transaction != null) transaction.Dispose();
                         connection.Close();
                     }
                 }
             }
 
-            return result;
+            return addToOrder && addToOrderDetail && confirmPayment && totalPriceUpdated;
         }
 
-        public bool AddToOrderDetail(OrderDetail orderDetail)
+        public bool CheckoutByCourse(Order order, Guid courseId)
         {
             bool result = false;
 
-            string query = $"INSERT INTO orderdetail (invoice, courseId) " +
-                $"VALUES (@invoice, @courseId)";
+            string queryInsertToCart = "INSERT INTO cart (courseId, userId, courseDate, isPaid) VALUES (@courseId, @userId, @courseDate, FALSE)";
+            string queryGetCartId = "SELECT cartId FROM cart WHERE courseId = @courseId AND userId = @userId AND isPaid = FALSE";
+            string queryInsertOrder = "INSERT INTO `order` (orderId, invoice, userId, paymentMethod, courseDate) VALUES (@orderId, @invoice, @userId, @paymentMethod, @courseDate)";
+            string queryInsertOrderDetail = "INSERT INTO orderdetail (invoice, cartId) VALUES (@invoice, @cartId)";
+            string queryUpdateIsPaid = "UPDATE cart SET isPaid = TRUE WHERE cartId = @cartId";
+            string queryUpdateOrderTotalPrice = "UPDATE `order` SET totalPrice = (SELECT SUM(c.coursePrice) FROM " +
+                "orderdetail od JOIN cart ca ON od.cartId = ca.cartId JOIN course c ON ca.courseId = c.courseId " +
+                "WHERE od.invoice = @invoice) WHERE invoice = @invoice";
 
-            using (MySqlConnection connection = new MySqlConnection(connectionString))
+            MySqlConnection connection = null;
+            MySqlTransaction transaction = null;
+
+            try
             {
-                using (MySqlCommand command = new MySqlCommand())
-                {
-                    command.Connection = connection;
-                    command.Parameters.Clear();
-                    command.CommandText = query;
-
-                    command.Parameters.AddWithValue("@invoice", orderDetail.invoice);
-                    command.Parameters.AddWithValue("@courseId", orderDetail.courseId);
-
-                    try
-                    {
-                        connection.Open();
-                        result = command.ExecuteNonQuery() > 0 ? true : false;
-                    }
-                    catch (Exception)
-                    {
-                        throw;
-                    }
-                    finally
-                    {
-                        connection.Close();
-                    }
-                }
-            }
-
-            return result;
-        }
-
-        public bool ConfirmPaidSelectedCourses(Guid userId, int courseId)
-        {
-            bool result = false;
-
-            string query = $"UPDATE cart SET isPaid = TRUE " +
-                $"WHERE userId = @userId AND courseId = @courseId";
-
-            using (MySqlConnection connection = new MySqlConnection(connectionString))
-            {
-                using (MySqlCommand command = new MySqlCommand())
-                {
-                    command.Connection = connection;
-                    command.Parameters.Clear();
-                    command.CommandText = query;
-
-                    command.Parameters.AddWithValue("@userId", userId.ToString());
-                    command.Parameters.AddWithValue("@courseId", courseId);
-
-                    try
-                    {
-                        connection.Open();
-                        result = command.ExecuteNonQuery() > 0 ? true : false;
-                    }
-                    catch (Exception)
-                    {
-                        throw;
-                    }
-                    finally
-                    {
-                        connection.Close();
-                    }
-                }
-            }
-
-            return result;
-        }
-
-        /*public bool CheckoutTransaction(Orders orders, OrderDetail orderDetail)
-        {
-            bool result = false;
-
-            string queryOrder = $"INSERT INTO orders (order_id, invoice_no, order_by, payment_method) " +
-                $"VALUES (@order_id, @invoice_no, @order_by, @payment_method)";
-            string queryOrderDetail = $"INSERT INTO order_detail (invoice_no, class_id) " +
-                $"VALUES (@invoice_no, @class_id)";
-
-            using (MySqlConnection connection = new MySqlConnection(connectionString))
-            {
+                connection = new MySqlConnection(connectionString);
                 connection.Open();
-                MySqlTransaction transaction = connection.BeginTransaction();
+                transaction = connection.BeginTransaction();
 
-                MySqlCommand commandOrder = new MySqlCommand();
-                commandOrder.Connection = connection;
-                commandOrder.Transaction = transaction;
-                commandOrder.Parameters.Clear();
-                commandOrder.CommandText = queryOrder;
+                // Step 1: Insert to cart
+                using (MySqlCommand command = new MySqlCommand(queryInsertToCart, connection, transaction))
+                {
+                    command.Parameters.AddWithValue("@courseId", courseId.ToString());
+                    command.Parameters.AddWithValue("@userId", order.userId);
+                    command.Parameters.AddWithValue("@courseDate", order.courseDate?.ToString() ?? "TEST");
+                    command.ExecuteNonQuery();
+                }
 
-                commandOrder.Parameters.AddWithValue("@order_id", orders.orderId.ToString());
-                commandOrder.Parameters.AddWithValue("@invoice_no", orders.invoiceNo.ToString());
-                commandOrder.Parameters.AddWithValue("@order_by", orders.orderBy.ToString());
-                commandOrder.Parameters.AddWithValue("@payment_method", orders.paymentMethod.ToString());
+                // Step 2: Insert order
+                using (MySqlCommand command = new MySqlCommand(queryInsertOrder, connection, transaction))
+                {
+                    command.Parameters.AddWithValue("@orderId", order.orderId);
+                    command.Parameters.AddWithValue("@invoice", order.invoice);
+                    command.Parameters.AddWithValue("@userId", order.userId);
+                    command.Parameters.AddWithValue("@paymentMethod", order.paymentMethod);
+                    command.Parameters.AddWithValue("@courseDate", order.courseDate?.ToString() ?? "TEST");
+                    command.ExecuteNonQuery();
+                }
 
-                MySqlCommand commandOrderDetail = new MySqlCommand();
-                commandOrderDetail.Connection = connection;
-                commandOrderDetail.Transaction = transaction;
-                commandOrderDetail.Parameters.Clear();
-                commandOrderDetail.CommandText = queryOrderDetail;
+                // Step 3: Checkout
+                // Get cartId
+                int cartId;
+                using (MySqlCommand command = new MySqlCommand(queryGetCartId, connection, transaction))
+                {
+                    command.Parameters.AddWithValue("@courseId", courseId.ToString());
+                    command.Parameters.AddWithValue("@userId", order.userId);
+                    object cartIdObj = command.ExecuteScalar();
+                    cartId = cartIdObj != null && cartIdObj != DBNull.Value ? Convert.ToInt32(cartIdObj) : -1;
+                }
 
-                commandOrderDetail.Parameters.AddWithValue("@invoice_no", orderDetail.invoiceNo);
-                commandOrderDetail.Parameters.AddWithValue("@class_id", orderDetail.classId);
+                if (cartId != -1)
+                {
+                    // Insert to order detail
+                    using (MySqlCommand command = new MySqlCommand(queryInsertOrderDetail, connection, transaction))
+                    {
+                        command.Parameters.AddWithValue("@invoice", order.invoice);
+                        command.Parameters.AddWithValue("@cartId", cartId);
+                        command.ExecuteNonQuery();
+                    }
 
+                    // Update isPaid in cart
+                    using (MySqlCommand command = new MySqlCommand(queryUpdateIsPaid, connection, transaction))
+                    {
+                        command.Parameters.AddWithValue("@cartId", cartId);
+                        command.ExecuteNonQuery();
+                    }
+
+                    // Update order total price
+                    using (MySqlCommand command = new MySqlCommand(queryUpdateOrderTotalPrice, connection, transaction))
+                    {
+                        command.Parameters.AddWithValue("@invoice", order.invoice);
+                        command.ExecuteNonQuery();
+                    }
+
+                    // Commit transaction
+                    transaction.Commit();
+                    result = true;
+                }
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine("An error occurred: " + ex.Message);
+                // Rollback transaction if any exception occurs
                 try
                 {
-                    result = (commandOrder.ExecuteNonQuery() > 0 && commandOrderDetail.ExecuteNonQuery() > 0) ? true : false;
-                    
-                    transaction.Commit();
+                    transaction?.Rollback();
                 }
-                catch(Exception)
+                catch (Exception rollbackEx)
                 {
-                    transaction.Rollback();
+                    Console.WriteLine("Rollback failed: " + rollbackEx.Message);
                 }
-                finally
+            }
+            finally
+            {
+                transaction?.Dispose();
+                connection?.Close();
+            }
+
+            return result;
+        }
+
+        public List<MyCourseDTO> GetMyCourseById(Guid userId)
+        {
+            List<MyCourseDTO> myCourses = new List<MyCourseDTO>();
+
+            string query = @"
+                SELECT ca.courseDate, c.categoryName, cr.courseName, cr.courseImg, ca.isPaid
+                FROM cart ca
+                JOIN course cr ON ca.courseId = cr.courseId
+                JOIN category c ON cr.categoryId = c.categoryId
+                JOIN user u ON u.userId = ca.userId
+                WHERE ca.userId = @userId
+            ";
+
+            using (MySqlConnection connection = new MySqlConnection(connectionString))
+            {
+                using (MySqlCommand command = new MySqlCommand())
                 {
-                    if(transaction != null) transaction.Dispose();
-                    if(commandOrder != null) commandOrder.Dispose();
-                    if(commandOrderDetail != null) commandOrderDetail.Dispose();
-                    connection.Close();
+                    command.Parameters.AddWithValue("@userId", userId);
+
+                    command.Connection = connection;
+                    command.CommandText = query;
+
+                    try
+                    {
+                        connection.Open();
+                        using (MySqlDataReader reader = command.ExecuteReader())
+                        {
+                            while (reader.Read())
+                            {
+                                MyCourseDTO myCourse = new MyCourseDTO
+                                {
+                                    categoryName = reader["categoryName"].ToString(),
+                                    courseName = reader["courseName"].ToString(),
+                                    courseDate = reader["courseDate"].ToString(),
+                                    courseImg = reader["courseImg"].ToString(),
+                                    isPaid = Convert.ToBoolean(reader["isPaid"].ToString())
+
+                                };
+                                myCourses.Add(myCourse);
+                            }
+                        }
+                    }
+                    catch (Exception)
+                    {
+                        throw;
+                    }
+                    finally
+                    {
+                        connection.Close();
+                    }
+                }
+            }
+
+            return myCourses;
+        }
+
+        public List<UserCartDTO> GetCartById(Guid userId)
+        {
+            List<UserCartDTO> myCarts = new List<UserCartDTO>();
+
+            string query = @"
+                  SELECT ca.cartId, ca.courseDate, c.categoryName, cr.courseName, cr.coursePrice, ca.isPaid, cr.courseImg
+                  FROM cart ca
+                  JOIN course cr ON ca.courseId = cr.courseId
+                  JOIN category c ON cr.categoryId = c.categoryId
+                  JOIN user u ON u.userId = ca.userId
+                  WHERE ca.userId = @userId ";
+
+            using (MySqlConnection connection = new MySqlConnection(connectionString))
+            {
+                using (MySqlCommand command = new MySqlCommand())
+                {
+                    command.Parameters.AddWithValue("@userId", userId);
+
+                    command.Connection = connection;
+                    command.CommandText = query;
+
+                    try
+                    {
+                        connection.Open();
+                        using (MySqlDataReader reader = command.ExecuteReader())
+                        {
+                            while (reader.Read())
+                            {
+                                UserCartDTO myCourse = new UserCartDTO
+                                {
+                                    cartId = Convert.ToInt32(reader["cartId"]),
+                                    categoryName = reader["categoryName"].ToString(),
+                                    courseName = reader["courseName"].ToString(),
+                                    courseDate = reader["courseDate"].ToString(),
+                                    coursePrice = Convert.ToDecimal(reader["coursePrice"]),
+                                    isPaid = Convert.ToBoolean(reader["isPaid"]),
+                                    courseImg = reader["courseImg"].ToString()
+                                };
+                                myCarts.Add(myCourse);
+                            }
+                        }
+                    }
+                    catch (Exception)
+                    {
+                        throw;
+                    }
+                    finally
+                    {
+                        connection.Close();
+                    }
+                }
+            }
+
+            return myCarts;
+        }
+
+        public bool DeleteCartByIdCart(int cartId)
+        {
+            bool result = false;
+
+            string query = "DELETE FROM cart WHERE cartId = @cartId";
+
+            using (MySqlConnection connection = new MySqlConnection(connectionString))
+            {
+                using (MySqlCommand command = new MySqlCommand())
+                {
+                    command.Parameters.AddWithValue("@cartId", cartId);
+
+                    command.Connection = connection;
+                    command.CommandText = query;
+
+                    try
+                    {
+                        connection.Open();
+                        result = command.ExecuteNonQuery() > 0;
+                    }
+                    catch (Exception)
+                    {
+                        throw;
+                    }
+                    finally
+                    {
+                        connection.Close();
+                    }
                 }
             }
 
             return result;
-        }*/
+        }
+
 
     }
 }

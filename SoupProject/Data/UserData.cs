@@ -159,6 +159,94 @@ namespace SoupProject.Data
             return users;
         }
 
+        public User GetUserById(Guid userId)
+        {
+            User user = null;
+
+            string query = "SELECT * FROM user WHERE userId = @userId";
+
+            using (MySqlConnection connection = new MySqlConnection(_connectionString))
+            {
+                using (MySqlCommand command = new MySqlCommand(query, connection))
+                {
+                    command.Parameters.AddWithValue("@userId", userId);
+
+                    try
+                    {
+                        connection.Open();
+
+                        using (MySqlDataReader reader = command.ExecuteReader())
+                        {
+                            if (reader.Read())
+                            {
+                                user = new User
+                                {
+                                    userId = Guid.Parse(reader["userId"].ToString()),
+                                    username = reader["username"].ToString(),
+                                    email = reader["email"].ToString(),
+                                    password = reader["password"].ToString(),
+                                    role = reader["role"].ToString(),
+                                    isActivated = Convert.ToBoolean(reader["isActivated"])
+                                };
+                            }
+                        }
+                    }
+                    catch (Exception ex)
+                    {
+                        throw ex;
+                    }
+                    finally
+                    {
+                        connection.Close();
+                    }
+                }
+            }
+
+            return user;
+        }
+
+        public bool UpdateUserAccount(Guid userId, User user)
+        {
+            bool result = false;
+
+            string query = "UPDATE user SET username = @username, email = @email, role = @role, isActivated = @isActivated " +
+                "WHERE userId = @userId";
+
+
+            using (MySqlConnection connection = new MySqlConnection(_connectionString))
+            {
+                using (MySqlCommand command = new MySqlCommand())
+                {
+                    command.Connection = connection;
+                    command.Parameters.Clear();
+
+                    command.CommandText = query;
+
+                    command.Parameters.AddWithValue("@userId", userId);
+                    command.Parameters.AddWithValue("@username", user.username);
+                    command.Parameters.AddWithValue("@email", user.email);
+                    command.Parameters.AddWithValue("@role", user.role);
+                    command.Parameters.AddWithValue("@isActivated", user.isActivated);
+
+                    try
+                    {
+                        connection.Open();
+
+                        result = command.ExecuteNonQuery() > 0 ? true : false;
+                    }
+                    catch (Exception)
+                    {
+                        throw;
+                    }
+                    finally
+                    { connection.Close(); }
+                }
+
+            }
+
+            return result;
+        }
+
         #region Multiple Sql command (with transaction)
         public bool CreateUserAccount(User user)
         {

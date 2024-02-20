@@ -2,12 +2,16 @@
 {
     public class Course
     {
-        public int courseId { get; set; }
-        public string namaCourse { get; set; } = string.Empty;
-        public string imgCourse { get; set; }
-        public string? deskripsiCourse { get; set; }
-        public decimal hargaCourse { get; set; }
-        public int kategoriId { get; set; }
+        public Guid courseId { get; set; }
+        public string courseName { get; set; } = string.Empty;
+        public int categoryId { get; set; }
+        public string courseImg { get; set; } = string.Empty;
+        public string courseDesc { get; set; } = string.Empty;
+        public int coursePrice { get; set; }
+        public int CartCount { get; set; }
+
+        public string courseStatus { get; set; } = string.Empty;
+        public string ImagePath { get; set; } = string.Empty;
         public string categoryName { get; set; } = string.Empty;
     }
 }

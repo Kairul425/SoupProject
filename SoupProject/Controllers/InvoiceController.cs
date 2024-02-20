@@ -1,6 +1,7 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using SoupProject.Data;
 using SoupProject.DTOs.Invoice;
+using SoupProject.Models;
 using System;
 
 namespace SoupProject.Controllers
@@ -14,6 +15,34 @@ namespace SoupProject.Controllers
         public InvoiceController(InvoiceData invoiceData)
         {
             this.invoiceData = invoiceData;
+        }
+
+        [HttpGet("GetAllInvoice")]
+        public IActionResult GetAllInvoice()
+        {
+            try
+            {
+                List<InvoiceDTO> invoice = invoiceData.GetAllInvoice();
+                return StatusCode(200, invoice);
+            }
+            catch (Exception ex)
+            {
+                return StatusCode(500, ex.Message);
+            }
+        }
+
+        [HttpGet("GetAllDetailInvoice")]
+        public IActionResult GetAllDetailInvoice()
+        {
+            try
+            {
+                List<InvoiceDetailDTO> invoiceDetail = invoiceData.GetAllInvoiceDetail();
+                return StatusCode(200, invoiceDetail);
+            }
+            catch (Exception ex)
+            {
+                return StatusCode(500, ex.Message);
+            }
         }
 
         [HttpGet("GetInvoiceByUser")]
@@ -36,6 +65,20 @@ namespace SoupProject.Controllers
             try
             {
                 List<InvoiceDetailDTO> invoiceDetail = invoiceData.GetInvoiceDetailByInvoice(invoice);
+                return StatusCode(200, invoiceDetail);
+            }
+            catch (Exception ex)
+            {
+                return StatusCode(500, ex.Message);
+            }
+        }
+
+        [HttpGet("GetAllInvoiceDetail")]
+        public IActionResult GetAllInvoiceDetail()
+        {
+            try
+            {
+                List<InvoiceDetailDTO> invoiceDetail = invoiceData.GetAllInvoiceDetail();
                 return StatusCode(200, invoiceDetail);
             }
             catch (Exception ex)

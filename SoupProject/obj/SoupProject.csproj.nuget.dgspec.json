@@ -1,17 +1,17 @@
 {
   "format": 1,
   "restore": {
-    "C:\\Users\\SYAHRUL\\Desktop\\SoupProjectApi\\SoupProject\\SoupProject.csproj": {}
+    "C:\\Users\\SYAHRUL\\OneDrive\\Desktop\\SoupProjectApi\\SoupProject\\SoupProject.csproj": {}
   },
   "projects": {
-    "C:\\Users\\SYAHRUL\\Desktop\\SoupProjectApi\\SoupProject\\SoupProject.csproj": {
+    "C:\\Users\\SYAHRUL\\OneDrive\\Desktop\\SoupProjectApi\\SoupProject\\SoupProject.csproj": {
       "version": "1.0.0",
       "restore": {
-        "projectUniqueName": "C:\\Users\\SYAHRUL\\Desktop\\SoupProjectApi\\SoupProject\\SoupProject.csproj",
+        "projectUniqueName": "C:\\Users\\SYAHRUL\\OneDrive\\Desktop\\SoupProjectApi\\SoupProject\\SoupProject.csproj",
         "projectName": "SoupProject",
-        "projectPath": "C:\\Users\\SYAHRUL\\Desktop\\SoupProjectApi\\SoupProject\\SoupProject.csproj",
+        "projectPath": "C:\\Users\\SYAHRUL\\OneDrive\\Desktop\\SoupProjectApi\\SoupProject\\SoupProject.csproj",
         "packagesPath": "C:\\Users\\SYAHRUL\\.nuget\\packages\\",
-        "outputPath": "C:\\Users\\SYAHRUL\\Desktop\\SoupProjectApi\\SoupProject\\obj\\",
+        "outputPath": "C:\\Users\\SYAHRUL\\OneDrive\\Desktop\\SoupProjectApi\\SoupProject\\obj\\",
         "projectStyle": "PackageReference",
         "configFilePaths": [
           "C:\\Users\\SYAHRUL\\AppData\\Roaming\\NuGet\\NuGet.Config",

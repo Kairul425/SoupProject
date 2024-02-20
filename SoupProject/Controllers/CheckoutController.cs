@@ -1,7 +1,10 @@
-﻿using Microsoft.AspNetCore.Mvc;
+﻿using MailKit.Search;
+using Microsoft.AspNetCore.Mvc;
 using SoupProject.Data;
 using SoupProject.DTOs.Cart;
 using SoupProject.Models;
+using System.Data.Common;
+using System.Security.Claims;
 
 namespace SoupProject.Controllers
 {
@@ -23,14 +26,14 @@ namespace SoupProject.Controllers
             {
                 if (cartDTO == null) return BadRequest("Data should be inputed");
 
-                Cart newCourse = new Cart
+                Cart cart = new Cart
                 {
-                    courseId = cartDTO.courseId,
                     userId = cartDTO.userId,
-                    courseDate = DateTime.Now
+                    courseId = cartDTO.courseId,
+                    courseDate = cartDTO.courseDate
                 };
 
-                bool result = checkoutData.InsertToCart(newCourse);
+                bool result = checkoutData.InsertToCart(cart);
 
                 if (result) return StatusCode(201);
                 else return StatusCode(500, "Failed adding to cart.");
@@ -41,15 +44,65 @@ namespace SoupProject.Controllers
             }
         }
 
-        [HttpPost]
+        [HttpPost("Checkout")]
         public IActionResult Checkout([FromBody] CheckoutDTO checkoutDTO)
         {
-            bool resultOrder = false, resultOrderDetail = false, checkPaidCourses = false;
-            string invoiceNumber = "INV" + DateTime.Today.ToString("ddMMyyyyhmmss") + DateTimeOffset.Now.ToUnixTimeMilliseconds().ToString();
-
             try
             {
-                if (checkoutDTO == null) return BadRequest("There is no order data");
+                if (checkoutDTO == null)
+                {
+                    return BadRequest("There is no order data");
+                }
+
+                string invoiceNumber = "INV" + DateTime.Today.ToString("ddMMyyyyhmmss") + DateTimeOffset.Now.ToUnixTimeMilliseconds().ToString();
+
+                Order order = new Order
+                {
+                    orderId = Guid.NewGuid(),
+                    invoice = invoiceNumber,
+                    userId = checkoutDTO.userId,
+                    paymentMethod = checkoutDTO.paymentMethod
+                };
+
+                bool result = checkoutData.Checkout(order, checkoutDTO.selectedCourses);
+
+                if (result)
+                {
+                    return StatusCode(201, "Success");
+                }
+                else
+                {
+                    return StatusCode(500, "Error occurred during checkout transaction.");
+                }
+            }
+            catch (ArgumentNullException ex)
+            {
+                // Handle ArgumentNullException
+                return BadRequest("Invalid input: " + ex.Message);
+            }
+            catch (DbException ex)
+            {
+                // Handle database-related exceptions
+                return StatusCode(500, "Database error: " + ex.Message);
+            }
+            catch (Exception ex)
+            {
+                // Handle any other unexpected exceptions
+                return StatusCode(500, "An unexpected error occurred: " + ex.Message);
+            }
+        }
+
+        [HttpPost("CheckoutByCourse")]
+        public IActionResult CheckoutByCourse([FromBody] CheckoutByCourseDTO checkoutDTO)
+        {
+            try
+            {
+                if (checkoutDTO == null)
+                {
+                    return BadRequest("There is no order data");
+                }
+
+                string invoiceNumber = "INV" + DateTime.Today.ToString("ddMMyyyyhmmss") + DateTimeOffset.Now.ToUnixTimeMilliseconds().ToString();
 
                 Order order = new Order
                 {
@@ -57,33 +110,87 @@ namespace SoupProject.Controllers
                     invoice = invoiceNumber,
                     userId = checkoutDTO.userId,
                     paymentMethod = checkoutDTO.paymentMethod,
+                    courseDate = checkoutDTO.courseDate
                 };
-                resultOrder = checkoutData.AddToOrder(order);
 
-                foreach (int selectedCourses in checkoutDTO.selectedCourses)
+                bool result = checkoutData.CheckoutByCourse(order, checkoutDTO.courseId);
+
+                if (result)
                 {
-                    OrderDetail orderDetail = new OrderDetail
-                    {
-                        invoice = invoiceNumber,
-                        courseId = selectedCourses
-                    };
-                    resultOrderDetail = checkoutData.AddToOrderDetail(orderDetail);
-
-                    checkPaidCourses = checkoutData.ConfirmPaidSelectedCourses(checkoutDTO.userId, selectedCourses);
-
-                    if (!resultOrderDetail || !checkPaidCourses)
-                    {
-                        return StatusCode(500, "Failed to checkout class by id = " + selectedCourses);
-                    }
+                    return StatusCode(201, "Success");
                 }
-
-                if (resultOrder && resultOrderDetail) return StatusCode(201, "Success");
-                else return StatusCode(500, "Error occur");
+                else
+                {
+                    return StatusCode(500, "Error occurred during checkout transaction.");
+                }
+            }
+            catch (ArgumentNullException ex)
+            {
+                // Handle ArgumentNullException
+                return BadRequest("Invalid input: " + ex.Message);
+            }
+            catch (DbException ex)
+            {
+                // Handle database-related exceptions
+                return StatusCode(500, "Database error: " + ex.Message);
             }
             catch (Exception ex)
             {
-                return Problem(invoiceNumber +" "+ checkoutDTO.userId.ToString() +" "+ checkoutDTO.paymentMethod.ToString() +" "+ ex.Message);
+                // Handle any other unexpected exceptions
+                return StatusCode(500, "An unexpected error occurred: " + ex.Message);
             }
         }
+
+        [HttpGet("GetCartById")]
+        public IActionResult GetCartById(Guid userId)
+        {
+            try
+            {
+                List<UserCartDTO> cart = checkoutData.GetCartById(userId);
+                return StatusCode(200, cart);
+            }
+            catch (Exception ex)
+            {
+                return StatusCode(500, ex.Message);
+            }
+        }
+
+
+        [HttpGet("GetMyCourseById")]
+        public IActionResult GetMyCourseById(Guid userId)
+        {
+            try
+            {
+                List<MyCourseDTO> cart = checkoutData.GetMyCourseById(userId);
+                return StatusCode(200, cart);
+            }
+            catch (Exception ex)
+            {
+                return StatusCode(500, ex.Message);
+            }
+        }
+
+        [HttpDelete("DeleteCart")]
+        public IActionResult DeleteCartByIdCart(int cartId)
+        {
+            try
+            {
+                bool result = checkoutData.DeleteCartByIdCart(cartId);
+                if (result)
+                {
+                    return Ok(new { Message = "Cart deleted successfully." });
+                }
+                else
+                {
+                    return NotFound(new { Message = "Cart not found." });
+                }
+            }
+            catch (Exception ex)
+            {
+                // Log the exception or handle it accordingly
+                return StatusCode(500, new { Message = "Internal Server Error" });
+            }
+        }
+
     }
 }

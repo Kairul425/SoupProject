@@ -14,7 +14,7 @@ using System.Reflection;
 [assembly: System.Reflection.AssemblyCompanyAttribute("SoupProject")]
 [assembly: System.Reflection.AssemblyConfigurationAttribute("Debug")]
 [assembly: System.Reflection.AssemblyFileVersionAttribute("1.0.0.0")]
-[assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0.0+0c052bed7a085087bbf9beb39c6037d4770831f5")]
+[assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0.0+536d9c8453efa5d4ae80a5f0dab74424bfa2bccd")]
 [assembly: System.Reflection.AssemblyProductAttribute("SoupProject")]
 [assembly: System.Reflection.AssemblyTitleAttribute("SoupProject")]
 [assembly: System.Reflection.AssemblyVersionAttribute("1.0.0.0")]

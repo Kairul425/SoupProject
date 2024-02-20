@@ -42,13 +42,15 @@ builder.Services.AddSwaggerGen(option =>
     });
 });
 
-builder.Services.AddScoped<CourseData>();
-builder.Services.AddScoped<CategoryData>();
 builder.Services.AddScoped<UserData>();
+builder.Services.AddScoped<CategoryData>();
+builder.Services.AddScoped<CourseData>();
+builder.Services.AddScoped<ScheduleData>();
+builder.Services.AddScoped<PaymentData>();
 builder.Services.AddScoped<CheckoutData>();
 builder.Services.AddScoped<InvoiceData>();
-
 builder.Services.AddTransient<EmailService>();
+builder.Services.AddSingleton(builder.Configuration);
 
 builder.Services.AddCors();
 
@@ -90,6 +92,8 @@ app.UseCors(builder =>
 app.UseAuthentication();
 
 app.UseAuthorization();
+
+app.UseStaticFiles();
 
 app.MapControllers();
 
